@@ -1,0 +1,53 @@
+
+
+
+.user-panel.body {
+    padding-top: 10vh;
+    background-image: url('../images/background2.png'); /* Default background */
+  }
+
+  .widget-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px;
+    justify-content: center;
+    align-items: start;
+    
+    margin: auto;
+  }
+
+  @media (min-width: 1200px) {
+    .widget-container {
+      grid-template-columns: repeat(4, 1fr); /* Exactly 4 columns */
+      grid-template-rows: repeat(2, 300px);
+      max-width: calc(300px * 4 + 40px * 3); /* for 4 columns plus 3 gaps */
+    }
+  }
+  
+ /* For medium screens where you want 3 columns */
+@media (max-width: 1199px) and (min-width: 900px) {
+    .widget-container {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 300px);
+    }
+  }
+  
+  /* For smaller screens where you want 2 columns */
+  @media (max-width: 899px) and (min-width: 600px) {
+    .widget-container {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 300px);
+    }
+  }
+  
+  /* For very small screens where you want 1 column */
+  @media (max-width: 599px) {
+    .widget-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(5, 300px);
+    }
+  }
+  
+  
+  

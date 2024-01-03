@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    justify-content: space-between; /* This pushes the children to opposite ends */
+    align-items: center; /* This vertically centers the children */
+    padding: 0.25rem; /* Add padding on all sides */
+    background-color: #479F76; /* Or any other color you'd like */
+    color: white;
+    width: 100%; /* Make sure the header fills the whole width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Make sure it's above other content */
+    position: fixed; /* Fixed position to stay at the top */
+    top: 0;
+    left: 0;
+    border-bottom: 4px solid #198754; /* Adds a bottom border - change color as needed */
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 2rem; /* Adjust size as needed */
+    margin-left: 1rem; /* Adds left margin to the title */
+    color: white;
+  }
+  
+  /* Adjust the margin for the button */
+  .header .small-button.silent {
+    margin-right: 1rem; /* Adds right margin to the logout button */
+}
+  
+  /* You might also want to adjust the ButtonComponent's CSS file if the .button class is defined there */
+  

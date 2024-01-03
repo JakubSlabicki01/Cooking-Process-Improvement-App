@@ -1,0 +1,23 @@
+.item-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 150px;
+    padding: 10px;
+    background: #f0f0f0; /* Example background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Example shadow for depth */
+    margin: 10px; /* Space around the widget */
+  }
+  
+  .item-widget-icon {
+    /* Styles for the icon, e.g. size, margins */
+  }
+  
+  .item-widget-label {
+    margin-top: 8px; /* Space between icon and label */
+    text-align: center;
+    color: black;
+    /* Additional text styling as needed */
+  }
+  

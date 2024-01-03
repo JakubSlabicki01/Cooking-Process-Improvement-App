@@ -1,0 +1,126 @@
+/* Base widget styles */
+.widget {
+    border-radius: 10px;
+    display: flex; /* Corrected typo */
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+    padding-top: 2px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid #198754; /* Add your desired border style */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Big widgets */
+.big-dark, .big-bright {
+    height: 100%;
+    grid-column: span 2;
+}
+
+/* Small widgets */
+.small-dark, .small-bright {
+    aspect-ratio: 1 / 1; /* Maintain a 1:1 ratio */
+    grid-column: span 1;
+}
+
+/* Widget header */
+.widget-header {
+    width: 100%;
+    padding: 5px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Widget title */
+.widget-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+/* Style the scrollbar itself (width, background, etc.) */
+.widget-content::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Style the track of the scrollbar */
+  .widget-content::-webkit-scrollbar-track {
+    background: none;
+  }
+  
+  /* Style the handle of the scrollbar */
+  .widget-content::-webkit-scrollbar-thumb {
+    background: rgba(71, 159, 118, 0.7);;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  .widget-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+
+/* Big widget content area */
+.widget-content {
+    flex-grow: 1;
+    width: 100%;
+    border-radius: 10px;
+    background-color: white;
+    color:#198754;
+    padding: 10px;
+    box-sizing: border-box;
+    object-fit: contain;
+    max-height: calc(100% - 50px);
+    overflow-y: auto;
+    
+}
+
+/* Variant styles */
+.small-dark, .big-dark {
+    background-color: #479F76;
+    color: white;
+}
+
+.small-bright, .big-bright {
+    background-color: white;
+    color: #198754;
+}
+
+/* Icon for small widgets */
+.widget-icon {
+    display: flex; /* This will allow you to center the icon */
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    height: calc(100% - 50px); /* Set height to fill the container */
+    max-height: calc(100% - 50px); /* Ensure it doesn't exceed the container size */
+    object-fit: contain;
+  }
+  
+  .widget .widget-icon img {
+    max-width: 100%; /* Limit img width to not exceed the container */
+    max-height: 100%; /* Limit img height to not exceed the container */
+    object-fit: contain; /* Ensure the img keeps its aspect ratio within the container */
+  }
+
+ /* Add this inside WidgetComponent.css */
+.big-dark .widget-header .header-icon,
+.big-bright .widget-header .header-icon {
+  /* Scale down the icon for the big widget header */
+  width: 30px;  /* Adjust the width as needed */
+  height: 30px;  /* Adjust the height as needed */
+  align-items: center;
+  object-fit: contain;
+}
+
+/* Ensure the image inside the icon container fits well */
+.big-dark .widget-header .header-icon img,
+.big-bright .widget-header .header-icon img {
+  width: 100%;  /* Ensure the image takes the full width of the container */
+  height: 100%;  /* Maintain aspect ratio */
+  object-fit: contain;
+}

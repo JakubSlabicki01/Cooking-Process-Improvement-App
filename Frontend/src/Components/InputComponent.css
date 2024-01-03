@@ -1,0 +1,39 @@
+.input {
+    background-color: white;
+    color: #000;
+    border: 2px solid #000; /* Border style similar to button */
+    border-radius: 4px; /* If you want rounded corners like the button */
+    margin: 10px;
+  }
+  .input.small {
+    padding: 1rem 1rem; /* Padding similar to button for height */
+
+    min-width: 50px; /* Minimum width of the input */
+    max-width: 250px; /* Maximum width of the input */
+    font-size: 1.5rem; /* Font size similar to button */
+  }
+  /* You can add specific classes for login, create-account, or email if needed */
+  .input.login {
+    padding: 1rem 1rem; /* Padding similar to button for height */
+    width: 300%;
+    min-width: 100px; /* Minimum width of the input */
+    max-width: 500px; /* Maximum width of the input */
+    font-size: 1.5rem; /* Font size similar to button */
+  }
+  
+  .input.password {
+    padding: 1rem 1rem; /* Padding similar to button for height */
+    width: 300%;
+    min-width: 100px; /* Minimum width of the input */
+    max-width: 500px; /* Maximum width of the input */
+    font-size: 1.5rem; /* Font size similar to button */
+  }
+  
+  .input.email {
+    padding: 1rem 1rem; /* Padding similar to button for height */
+    width: 300%;
+    min-width: 100px; /* Minimum width of the input */
+    max-width: 500px; /* Maximum width of the input */
+    font-size: 1.5rem; /* Font size similar to button */
+  }
+  

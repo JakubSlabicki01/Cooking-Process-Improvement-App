@@ -1,0 +1,54 @@
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../images/background.png'); /* Adjust the path as necessary */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.login-form {
+  text-align: center;
+  width: 100%;
+  max-width: 800px; /* Adjust as needed */
+  margin: auto;
+  padding: 4rem;
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: adds some shadow for depth */
+}
+
+
+h1 {
+  text-align: center;
+  color: #333; /* Dark grey color for text */
+  font-size: 4rem; /* Scales with viewport width */
+  margin-bottom: 8rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Centering buttons in the container */
+  gap: 20px; /* This creates space between the buttons */
+}
+
+.login-form label {
+  color: #333; /* Dark grey color */
+  font-size: 1.25rem; /* Larger font size */
+  /* If you want to add more space around the label */
+  margin: 0.5rem;
+  display: inline-block; /* or inline-block based on your layout needs */
+}
+
+.login-form input[type="checkbox"] {
+  /* Add custom styles if needed */
+}
+
+/* Styling the checkmark color */
+.login-form input[type="checkbox"]:checked::before {
+  background-color: #28a745; /* Bootstrap success color */
+  /* You might need to add 'content' and 'display' properties to make it work */
+}

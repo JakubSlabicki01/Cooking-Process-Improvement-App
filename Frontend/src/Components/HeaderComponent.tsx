@@ -1,0 +1,19 @@
+import React from 'react';
+import './HeaderComponent.css';
+import ButtonComponent from '../Components/ButtonComponent'; // Assuming you have this component
+
+interface HeaderProps {
+  title: string;
+  onLogout: () => void; // Function to call when the logout button is clicked
+}
+
+const Header: React.FC<HeaderProps> = ({ title, onLogout }) => {
+  return (
+    <header className="header">
+      <h1>{title}</h1>
+      <ButtonComponent text="Log out" onClick={onLogout} classElem="small-silent"/>
+    </header>
+  );
+};
+
+export default Header;

@@ -1,0 +1,22 @@
+
+
+.taste-matching-view {
+    /* other styles */
+    display: flex;
+    width: 200vh;
+    flex-direction: column;
+    padding-top: 100px;
+    height: calc(100vh - 150px);
+  }
+  
+  .controls-wrapper {
+    display: flex;
+    justify-content: start;
+  }
+  
+  .button-container-fridge {
+    display: flex;
+    justify-content: end; /* Centering buttons in the container */
+    gap: 20px; /* This creates space between the buttons */
+  }
+  

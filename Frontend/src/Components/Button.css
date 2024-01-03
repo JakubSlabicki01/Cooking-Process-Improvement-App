@@ -1,0 +1,44 @@
+/* Big buttons */
+.big-button {
+  flex-grow: 1; /* Buttons will grow to fill the container */
+  padding: 1rem 2rem; /* Padding for better button height */
+  min-width: 300px; /* Minimum width of the buttons */
+  max-width: 300px; /* Maximum width of the buttons */
+  font-size: 1.5rem; /* Adjust font size as needed */
+  margin: 10px;
+  text-align: center;
+  border: 2px solid #000; /* Add your desired border style */
+  box-sizing: border-box;
+}
+
+.big-button.normal {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.big-button.silent {
+  background-color: #D1E7DD;
+  color: #146C43;
+}
+
+/* Small buttons */
+.small-button {
+  flex-grow: 1; /* Buttons will grow to fill the container */
+  padding: 0.5rem 1rem; /* Padding for better button height */
+  min-width: 100px; /* Minimum width of the buttons */
+  max-width: 150px; /* Maximum width of the buttons */
+  font-size: 1.5rem; /* Adjust font size as needed */
+  text-align: center;
+  border: 2px solid #000; /* Add your desired border style */
+  box-sizing: border-box;
+}
+
+.small-button.normal {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.small-button.silent {
+  background-color: #D1E7DD;
+  color: #146C43;
+}

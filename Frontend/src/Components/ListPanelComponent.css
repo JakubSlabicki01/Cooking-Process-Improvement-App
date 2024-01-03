@@ -1,0 +1,80 @@
+.main {
+
+    margin: 10px;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+/* Style the scrollbar itself (width, background, etc.) */
+.list-panel::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  /* Style the track of the scrollbar */
+  .list-panel::-webkit-scrollbar-track {
+    background: none;
+  }
+  
+  /* Style the handle of the scrollbar */
+  .list-panel::-webkit-scrollbar-thumb {
+    background: rgba(71, 159, 118, 0.7);;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  .list-panel::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+.list-panel {
+    background-color: white;
+    border-radius: 8px;
+    height: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.list-panel-header {
+    display: flex;
+    justify-content:space-around;
+    font-size: 20px;
+    background-color: #479F76;
+    color: white;
+    text-align: center;
+    padding: 10px 0; /* Adjust padding to match the itembar padding */
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+  }
+
+.list-panel-label {
+    font-size: 20px; 
+    font-weight: bold; 
+    text-align: left;
+    color: #A3CFBB; 
+}
+
+.list-panel.blank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjust the minmax values as necessary */
+  background-color: #479F76;
+  gap: 10px;
+  width: 100%; /* The grid container will take up the full width of its parent */
+}
+
+
+
+/* Variant-specific styles */
+.list-panel.ingredients .list-panel-header {
+    /* Styles for ingredients header */
+}
+
+.list-panel.recipe .list-panel-header {
+    /* Styles for recipe header */
+}
+
+.list-panel.expiry .list-panel-header {
+    /* Styles for expiry header */
+}
+
+/* Add additional variant styles as needed */

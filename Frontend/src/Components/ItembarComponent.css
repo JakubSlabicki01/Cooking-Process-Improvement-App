@@ -1,0 +1,79 @@
+/* General styles for all itembar variants */
+.itembar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px; /* Adjust padding to match design */
+  border-bottom: 2px solid #479F76; /* Example styling */
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.2);
+  color: #479F76;
+  font-size: 2.5rem; /* Larger font size */
+  font-weight: bold;
+  
+}
+
+
+.itembar .itembar-quantity,
+.itembar .itembar-added,
+.itembar .itembar-expiry {
+  margin: 0 10px; /* Spacing between items */
+  text-align: center;
+  flex: 1; /* Adjust the flex grow factor as needed */
+  
+}
+
+.itembar .itembar-icon {
+  margin: 0 10px; /* Spacing between items */
+  font-size: 3rem; /* If you are using a font icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.itembar .itembar-name {
+  margin: 0 10px; /* Spacing between items */
+  margin-left: 5px; /* Example: reduce the left margin */
+  flex-grow: 1;
+  text-align: left; /* Keep text aligned to the left */
+}
+
+/* You can still target specific variants if they need unique styling */
+.itembar-delete {
+  background-color: red; /* Red background for delete button */
+  color: white;
+  border: none;
+  margin-left: 16px; /* Add some space before the delete button */
+  border-radius: 10%; /* Circular button */
+  padding: 2px 15px; /* Adjust size as needed */
+  cursor: pointer;
+}
+
+.itembar-delete:hover {
+  background-color: darkred;
+}
+
+.itembar-add {
+  background-color: green; /* Red background for delete button */
+  color: white;
+  border: none;
+  margin-left: 16px; /* Add some space before the delete button */
+  border-radius: 10%; /* Circular button */
+  padding: 2px 15px; /* Adjust size as needed */
+  cursor: pointer;
+}
+
+.itembar-add:hover {
+  background-color: darkgreen;
+}
+
+/* Styles specific to big variants might include larger padding or font sizes */
+.itembar-big-fridge,
+.itembar-big-ingredients,
+.itembar-big-recipe {
+  padding: 20px; /* Larger padding for big items */
+  font-size: 4rem; /* Larger font size for big items */
+}
+
+/* Add or override styles for specific variants below */
+/* ... */
