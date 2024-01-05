@@ -4,14 +4,15 @@ import ButtonComponent from '../Components/ButtonComponent'; // Assuming you hav
 
 interface HeaderProps {
   title: string;
+  buttonText: string;
   onLogout: () => void; // Function to call when the logout button is clicked
 }
 
-const Header: React.FC<HeaderProps> = ({ title, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ title, onLogout, buttonText }) => {
   return (
     <header className="header">
       <h1>{title}</h1>
-      <ButtonComponent text="Log out" onClick={onLogout} classElem="small-silent"/>
+      <ButtonComponent text={buttonText} onClick={onLogout} classElem="small-silent"/>
     </header>
   );
 };

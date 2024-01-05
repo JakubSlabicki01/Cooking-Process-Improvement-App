@@ -10,11 +10,14 @@ import './index.css';
 import './App.css'
 import MyFridgeView from './Features/MyFridgeView/MyFridgeView';
 import AddFromListView from './Features/AddFromListView/AddFromListView';
-import ScanProducts from './Features/ScanProducts/Scanproducts';
+import ScanProducts from './Features/ScanProducts/ScanProducts';
 import TasteMatching from './Features/TasteMatchingView/TasteMatching';
+import ChosenProductView from './Features/TasteMatchingView/ChosenProductView';
+import RecipeListView from './Features/RecipesListView/RecipeListView';
+import LikedRecipeListView from './Features/LikedRecipesView/LikedRecipeListView';
+import Settings from './Features/Settings/SettingsView';
 
 // Placeholder components for the routes
-const About = () => <div>About Component</div>;
 // You would replace these placeholders with your actual components
 
 const router = createBrowserRouter([
@@ -65,15 +68,19 @@ const router = createBrowserRouter([
     path: "/match",
     element: <TasteMatching />, // Assuming BackgroundImage is the layout component 
   },
+  {
+    path: "/chosen-product",
+    element: <ChosenProductView />, // Assuming BackgroundImage is the layout component 
+  },
 
   {
     path: "/recipe-list",
-    element: <MyFridgeView />, // Assuming BackgroundImage is the layout component 
+    element: <RecipeListView />, // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/liked-recipes",
-    element: <MyFridgeView />, // Assuming BackgroundImage is the layout component 
+    element: <LikedRecipeListView />, // Assuming BackgroundImage is the layout component 
   },
 
   {
@@ -83,7 +90,7 @@ const router = createBrowserRouter([
 
   {
     path: "/settings",
-    element: <MyFridgeView />, // Assuming BackgroundImage is the layout component 
+    element: <Settings />, // Assuming BackgroundImage is the layout component 
   },
 
 

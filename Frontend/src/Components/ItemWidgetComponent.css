@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 150px;
-    padding: 10px;
-    background: #f0f0f0; /* Example background color */
+    max-width: 200px;
+    padding: 20px;
+    background: #D1E7DD; /* Example background color */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Example shadow for depth */
     margin: 10px; /* Space around the widget */
@@ -12,7 +12,14 @@
   
   .item-widget-icon {
     /* Styles for the icon, e.g. size, margins */
+    font-size: 3rem; /* Adjust font size as needed if it's a font icon */
+    width: 50px; /* Adjust width as needed if it's an image icon */
+    height: 50px; /* Adjust height as needed if it's an image icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+  
   
   .item-widget-label {
     margin-top: 8px; /* Space between icon and label */
@@ -20,4 +27,18 @@
     color: black;
     /* Additional text styling as needed */
   }
+
+  .item-widget.clickable {
+    cursor: pointer; /* Shows a pointer cursor on hover */
+    transition: transform 0.2s; /* Smooth transition for click effect */
+  }
+  
+  .item-widget.clickable:hover {
+    transform: scale(1.05); /* Slightly scale up the widget on hover */
+  }
+  
+  .item-widget.clickable:active {
+    transform: scale(0.95); /* Slightly scale down the widget on click */
+  }
+  
   

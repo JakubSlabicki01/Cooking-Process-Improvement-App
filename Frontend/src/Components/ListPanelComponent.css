@@ -55,11 +55,7 @@
 }
 
 .list-panel.blank {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjust the minmax values as necessary */
-  background-color: #479F76;
-  gap: 10px;
-  width: 100%; /* The grid container will take up the full width of its parent */
+
 }
 
 

@@ -12,6 +12,15 @@
     border: 2px solid #198754; /* Add your desired border style */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    transition: transform 0.2s; /* Smooth transition for click effect */
+}
+
+.widget:hover {
+  transform: scale(1.05); /* Slightly scale up the widget on hover */
+}
+
+.widget:active {
+  transform: scale(0.95); /* Slightly scale down the widget on click */
 }
 
 /* Big widgets */

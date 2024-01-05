@@ -34,7 +34,7 @@ const AddFromListView = () => {
 
   return (
     <div className="my-fridge-view">
-      <Header title="My Fridge" onLogout={goBack} />
+      <Header title="Add product" onLogout={goBack} buttonText='Go back'/>
       <div className="controls-wrapper">
         <InputComponent placeholder="Search input" type='login' classElem='login' />
         <ButtonComponent text='Sort' onClick={goBack} classElem='big-silent' />

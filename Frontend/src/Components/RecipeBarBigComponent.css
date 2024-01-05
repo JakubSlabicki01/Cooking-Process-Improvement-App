@@ -1,0 +1,82 @@
+.recipe-bar-big {
+  display: flex;
+  align-items: center;
+  padding: 8px; /* Adjust the padding as needed */
+  border-radius: 10px; /* Adjust the border-radius as needed */
+  background-color: #fff; /* Background color for the recipe bar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: adds a subtle shadow */
+  margin-bottom: 20px; /* Space between recipe bars */
+  /* Add a fixed height or min-height for the bar to contain the image */
+  min-height: 100px; /* Adjust the min-height as needed */
+  }
+
+  .recipe-bar-big.clickable {
+    cursor: pointer; /* Shows a pointer cursor on hover */
+    transition: transform 0.1s; /* Smooth transition for click effect */
+  }
+  
+  .recipe-bar-big.clickable:hover {
+    transform: scale(1.00); /* Slightly scale up the widget on hover */
+  }
+  
+  .recipe-bar-big.clickable:active {
+    transform: scale(0.99); /* Slightly scale down the widget on click */
+  }
+  
+  .recipe-photo img{
+    width: auto; /* Scales the width proportionally to the height */
+    height: 120px; /* Fixed height for the image */
+    margin: 10px; /* Adjust the right margin as needed */
+    border-radius: 10px;
+    object-fit: cover; /* Ensures the image covers the area, may cut off some parts of the image */
+
+  
+}
+
+  
+  .recipe-title,
+  .recipe-difficulty,
+  .recipe-servings,
+  .recipe-time {
+    margin-right: 10px;
+    padding: 10px;;
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    color: #479F76; /* Adjust the text color as needed */
+    flex-grow: 1; /* Allows the text to fill the available space */
+    font-weight: bold;
+  }
+
+  .recipe-like {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .recipe-like > svg {
+    background: transparent;
+    padding: 10px; /* Adjust as needed */
+    width: 3em; /* Adjust the size as needed */
+    height: 3em; /* Adjust the size as needed */
+  }
+  
+  .recipe-like:hover {
+    outline: none;
+    border: none;
+  }
+
+  .recipe-like:focus,
+.recipe-like:active {
+  outline: none;
+  border: none;
+  box-shadow: none; /* If you have box shadow set, remove it here */
+}
+  
+  /* When the star is filled, it should have no background */
+  .recipe-like.star-filled {
+    outline: none;
+  }
+
+  .star-outline {
+    stroke: #146C43; /* This sets the border color of the star */
+    stroke-width: 1; /* This sets the thickness of the border */
+  }

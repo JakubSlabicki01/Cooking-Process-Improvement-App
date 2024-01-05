@@ -78,9 +78,21 @@ const UserPanel = () => {
     navigate('/match')
   }
 
+  function goToRecipeList(): void {
+    navigate('/recipe-list')
+  }
+
+  function goToLikedRecipeList(): void {
+    navigate('/liked-recipes')
+  }
+
+  function goToSettings(): void {
+    navigate('/settings')
+  }
+
   return (
     <div className="user-panel">
-      <Header title='Welcome User' onLogout={goBack}></Header>
+      <Header title='Welcome User' onLogout={goBack} buttonText='Log out'/>
       <div className='widget-container'>
       
       <Widget variant="big-dark" title="My fridge" content={<FridgeContent /> } icon={<Fridge/>} onClick={goToMyfridge}  />
@@ -89,11 +101,11 @@ const UserPanel = () => {
 
       <Widget variant="small-dark" title="Taste matching" icon={<PuzzleFill size={230} color="white"/>} onClick={goToTasteMatching} />
 
-      <Widget variant="small-dark" title="Recipes" icon={<Book size={230} color="white"/>} />
+      <Widget variant="small-dark" title="Recipes" icon={<Book size={230} color="white"/>} onClick={goToRecipeList} />
 
-      <Widget variant="big-bright" title="Liked recipes" content={<RecipeContent />} icon={<StarFill size={30} color="#479F76"/>} />
+      <Widget variant="big-bright" title="Liked recipes" content={<RecipeContent />} icon={<StarFill size={30} color="#479F76"/>} onClick={goToLikedRecipeList} />
 
-      <Widget variant="small-dark" title="Settings" icon={<GearFill size={230} color="white" />} />
+      <Widget variant="small-dark" title="Settings" icon={<GearFill size={230} color="white" />} onClick={goToSettings}/>
 
       </div>
 

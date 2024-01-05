@@ -34,7 +34,7 @@ const ScanProducts = () => {
 
   return (
     <div className="scan-products-view">
-      <Header title="My Fridge" onLogout={goBack} />
+      <Header title="My Fridge" onLogout={goBack} buttonText='Go back'/>
       <div className="controls-wrapper">
         <InputComponent placeholder="Upload a picture" type='login' classElem='login' />
         <ButtonComponent text='Take a picture' onClick={goBack} classElem='big-silent' />
