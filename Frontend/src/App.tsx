@@ -16,6 +16,7 @@ import ChosenProductView from './Features/TasteMatchingView/ChosenProductView';
 import RecipeListView from './Features/RecipesListView/RecipeListView';
 import LikedRecipeListView from './Features/LikedRecipesView/LikedRecipeListView';
 import Settings from './Features/Settings/SettingsView';
+import PrivateRoute from './PrivateRoute';
 
 // Placeholder components for the routes
 // You would replace these placeholders with your actual components
@@ -31,66 +32,97 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/signin",
+    path: "/register",
     element: <SigninForm />, // Assuming BackgroundImage is the layout component 
   },
 
   {
-    path: "/signin",
-    element: <SigninForm />, // Assuming BackgroundImage is the layout component 
-  },
-  {
     path: "/user",
-    element: <UserPanel />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <UserPanel />
+      </PrivateRoute>
+    ),
   },
 
   {
     path: "/my-fridge",
-    element: <MyFridgeView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <MyFridgeView />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/add",
-    element: <AddFromListView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <AddFromListView />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/scan",
-    element: <ScanProducts />, // Assuming BackgroundImage is the layout component 
-  },
-
-  {
-    path: "/my-fridge",
-    element: <MyFridgeView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <ScanProducts />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/match",
-    element: <TasteMatching />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <TasteMatching />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
   {
     path: "/chosen-product",
-    element: <ChosenProductView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <ChosenProductView />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/recipe-list",
-    element: <RecipeListView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <RecipeListView />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/liked-recipes",
-    element: <LikedRecipeListView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <LikedRecipeListView />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/recipe",
-    element: <MyFridgeView />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <MyFridgeView />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
   {
     path: "/settings",
-    element: <Settings />, // Assuming BackgroundImage is the layout component 
+    element: (
+      <PrivateRoute>
+        <Settings />
+      </PrivateRoute>
+    ), // Assuming BackgroundImage is the layout component 
   },
 
 

@@ -15,12 +15,12 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: adds some shadow for depth */
 }
 
-h1 {
-  margin-bottom: 2rem;
+.title {
   text-align: center;
   color: #333; /* Dark grey color for text */
-  font-size: 4rem; /* Scales with viewport width */
-  margin-bottom: 8rem;
+  font-size: 3rem; /* Scales with viewport width */
+  margin-bottom: 3rem;
+  font-weight: bold;
 }
 
 .button-container {

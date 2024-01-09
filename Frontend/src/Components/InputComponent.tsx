@@ -1,21 +1,20 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import './InputComponent.css';
-import { ChangeEvent, useState, useEffect } from "react";
 
 interface InputCompProps extends React.HTMLProps<HTMLInputElement> {
-  type: "login" | "password" | "email";
+  type: "text" | "password" | "email";
   classElem?: "login" | "password" | "email" | "small";
   placeholder: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void; // Ensure onChange is correctly typed
 }
 
-const InputComponent = (props: InputCompProps) => {
-  const { type, classElem, placeholder, ...rest } = props;
-
+const InputComponent = ({ type, classElem, placeholder, onChange, ...rest }: InputCompProps) => {
   return (
     <input
       type={type}
       className={`input ${classElem ?? ''}`}
       placeholder={placeholder}
+      onChange={onChange} // Ensure onChange is properly passed
       {...rest}
     />
   );

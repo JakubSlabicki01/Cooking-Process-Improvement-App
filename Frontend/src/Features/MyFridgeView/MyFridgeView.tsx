@@ -42,7 +42,7 @@ const MyFridgeView = () => {
     <div className="my-fridge-view">
       <Header title="My Fridge" onLogout={goBack} buttonText='Go back'/>
       <div className="controls-wrapper">
-        <InputComponent placeholder="Search input" type='login' classElem='login' />
+        <InputComponent placeholder="Search input" type='text' classElem='login' />
         <ButtonComponent text='Sort' onClick={goBack} classElem='big-silent' />
       </div>
       <ListPanelComponent variant='default' label='Nazwa' children={<FridgeContent/>} />

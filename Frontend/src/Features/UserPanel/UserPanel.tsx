@@ -62,6 +62,11 @@ const UserPanel = () => {
 
   const navigate = useNavigate(); // Hook for navigation
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the token from local storage
+    navigate('/login'); // Redirect to login page
+  };
+
   const goBack = () => {
     navigate(-1); // Define the navigation path
   }
@@ -92,7 +97,7 @@ const UserPanel = () => {
 
   return (
     <div className="user-panel">
-      <Header title='Welcome User' onLogout={goBack} buttonText='Log out'/>
+      <Header title='Welcome User' onLogout={handleLogout} buttonText='Log out'/>
       <div className='widget-container'>
       
       <Widget variant="big-dark" title="My fridge" content={<FridgeContent /> } icon={<Fridge/>} onClick={goToMyfridge}  />

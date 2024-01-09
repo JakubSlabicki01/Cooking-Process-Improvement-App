@@ -22,11 +22,12 @@ body {
 }
 
 
-h1 {
+.title {
   text-align: center;
   color: #333; /* Dark grey color for text */
-  font-size: 4rem; /* Scales with viewport width */
-  margin-bottom: 8rem;
+  font-size: 3rem; /* Scales with viewport width */
+  margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 .button-container {

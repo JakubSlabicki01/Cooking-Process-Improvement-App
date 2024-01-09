@@ -4,6 +4,7 @@
   padding: 1rem 2rem; /* Padding for better button height */
   min-width: 300px; /* Minimum width of the buttons */
   max-width: 300px; /* Maximum width of the buttons */
+  min-height: 70px;
   font-size: 1.5rem; /* Adjust font size as needed */
   margin: 10px;
   text-align: center;

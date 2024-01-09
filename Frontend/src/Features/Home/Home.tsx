@@ -11,12 +11,12 @@ const Home = () => {
   }
 
   const goToSignin = () => {
-    navigate('/signin'); // Define the navigation path
+    navigate('/register'); // Define the navigation path
   }
 
   return (
     <div className="home">
-      <h1>Application for cooking process improvement</h1>
+      <div className='title'>Application for cooking process improvement</div>
       <div className="button-container">
       <ButtonComponent text={"Log in"} onClick={goToLogin} classElem="big-normal"/>
       <ButtonComponent text={"Create account"} onClick={goToSignin} classElem="big-silent"/>
