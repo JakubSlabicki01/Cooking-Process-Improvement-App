@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../LoginForm/LoginForm.css';
 import InputComponent from '../../Components/InputComponent.tsx';
 import ButtonComponent from '../../Components/ButtonComponent.tsx';
 import { useNavigate } from 'react-router-dom';
-import { Alert, Container, Row, Col } from "react-bootstrap";
-import CheckboxComponent from '../../Components/CheckboxComponent.tsx';
+import { Container, Row } from "react-bootstrap";
 import API from '../../Api.tsx';
+import  axios, { AxiosError } from 'axios';
 
 const SigninForm = () => {
   const navigate = useNavigate(); // Hook for navigation
@@ -14,6 +14,8 @@ const SigninForm = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   const handleSignIn = async () => {
     try {
@@ -26,10 +28,19 @@ const SigninForm = () => {
         console.log('User created successfully');
         navigate('/login'); // Redirect to login page after successful registration
       } else {
-        console.error('Registration failed:', response.data.message);
+        setErrorMessage(response.data.message);
       }
     } catch (error) {
-      console.error('Registration error:', error);
+      if (axios.isAxiosError(error)) {
+        const serverError = error as AxiosError<any>;
+        if (serverError && serverError.response) {
+          // Extract and set the error message from server response
+          setErrorMessage(serverError.response.data.message);
+        }
+      } else {
+        // Handle non-Axios error
+        setErrorMessage('An unexpected error occurred: ' + error);
+      }
     }
   };
 
@@ -50,6 +61,11 @@ const SigninForm = () => {
       <InputComponent type="password" classElem='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
       </Row>
       </Container>
+      {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
       <div className='button-container'>
       <ButtonComponent text={"Sign in"} onClick={handleSignIn} classElem="big-normal"/>
       <ButtonComponent text={"Cancel"} onClick={goBack} classElem="big-silent"/>

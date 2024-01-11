@@ -54,50 +54,45 @@ const RecipeContent = () => {
   );
 };
 
-const SettingsIcon = () => {
-  return <img src={settingsIcon} alt="Settings Icon" />;
-};
 
 const UserPanel = () => {
 
   const navigate = useNavigate(); // Hook for navigation
+  const username = localStorage.getItem('username') || 'user';
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage
     navigate('/login'); // Redirect to login page
   };
 
-  const goBack = () => {
-    navigate(-1); // Define the navigation path
-  }
 
   function goToMyfridge(): void {
-    navigate('/my-fridge');
+    navigate(`/${username}/my-fridge`);
   }
 
   function goToScan(): void {
-    navigate('/scan')
+    navigate(`/${username}/scan`)
   }
 
   function goToTasteMatching(): void {
-    navigate('/match')
+    navigate(`/${username}/match`)
   }
 
   function goToRecipeList(): void {
-    navigate('/recipe-list')
+    navigate(`/${username}/recipe-list`)
   }
 
   function goToLikedRecipeList(): void {
-    navigate('/liked-recipes')
+    navigate(`/${username}/liked-recipes`)
   }
 
   function goToSettings(): void {
-    navigate('/settings')
+    navigate(`/${username}/settings`)
   }
 
   return (
     <div className="user-panel">
-      <Header title='Welcome User' onLogout={handleLogout} buttonText='Log out'/>
+      <Header title={`Welcome ${username}`} onLogout={handleLogout} buttonText='Log out'/>
       <div className='widget-container'>
       
       <Widget variant="big-dark" title="My fridge" content={<FridgeContent /> } icon={<Fridge/>} onClick={goToMyfridge}  />

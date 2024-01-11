@@ -1,78 +1,62 @@
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from flask_migrate import Migrate
+from backend import create_app, db
+from backend.models import FoodItem
+from backend.models import User  # Import other models as needed
 
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from flask_cors import CORS
+app = create_app()
 
+#with app.app_context():
+    # Delete data from each table
+    #User.query.delete()
+    # Add similar lines for other tables
+    #db.session.commit()
+"""
+food_items = [
+    ("Apple", 30, "http://localhost:5000/static/icons/apple.png"),
+    ("Avocado", 7, "http://localhost:5000/static/icons/avocado.png"),
+    ("Banana", 7, "http://localhost:5000/static/icons/banana.png"),
+    ("Beef", 3, "http://localhost:5000/static/icons/beef.png"),
+    ("Bell Pepper", 14, "http://localhost:5000/static/icons/bell-pepper.png"),
+    ("Blueberry", 10, "http://localhost:5000/static/icons/blueberry.png"),
+    ("Broccoli", 15, "http://localhost:5000/static/icons/broccoli.png"),
+    ("Butter", 30, "http://localhost:5000/static/icons/butter.png"),
+    ("Canned Beans", 365, "http://localhost:5000/static/icons/canned-beans.png"),
+    ("Cauliflower", 10, "http://localhost:5000/static/icons/cauliflower.png"),
+    ("Chicken", 2, "http://localhost:5000/static/icons/chicken.png"),
+    ("Cucumber", 7, "http://localhost:5000/static/icons/cucumber.png"),
+    ("Egg", 21, "http://localhost:5000/static/icons/egg.png"),
+    ("Fish", 2, "http://localhost:5000/static/icons/fish.png"),
+    ("Garlic", 150, "http://localhost:5000/static/icons/garlic.png"),
+    ("Ginger", 60, "http://localhost:5000/static/icons/ginger.png"),
+    ("Grapes", 7, "http://localhost:5000/static/icons/grapes.png"),
+    ("Kale", 14, "http://localhost:5000/static/icons/kale.png"),
+    ("Lettuce", 7, "http://localhost:5000/static/icons/lettuce.png"),
+    ("Milk", 7, "http://localhost:5000/static/icons/milk.png"),
+    ("Mushrooms", 7, "http://localhost:5000/static/icons/mushrooms.png"),
+    ("Onion", 60, "http://localhost:5000/static/icons/onion.png"),
+    ("Orange", 21, "http://localhost:5000/static/icons/orange.png"),
+    ("Pasta", 365, "http://localhost:5000/static/icons/pasta.png"),
+    ("Peach", 5, "http://localhost:5000/static/icons/peach.png"),
+    ("Pear", 7, "http://localhost:5000/static/icons/pear.png"),
+    ("Plum", 5, "http://localhost:5000/static/icons/plum.png"),
+    ("Pumpkin", 30, "http://localhost:5000/static/icons/pumpkin.png"),
+    ("Rice", 365, "http://localhost:5000/static/icons/rice.png"),
+    ("Spinach", 7, "http://localhost:5000/static/icons/spinach.png"),
+    ("Squash", 30, "http://localhost:5000/static/icons/squash.png"),
+    ("Strawberry", 7, "http://localhost:5000/static/icons/strawberry.png"),
+    ("Sweet Potato", 30, "http://localhost:5000/static/icons/sweet-potato.png"),
+    ("White Bread", 7, "http://localhost:5000/static/icons/white.png"),
+    ("Yogurt", 14, "http://localhost:5000/static/icons/yogurt.png"),
+    ("Zucchini", 5, "http://localhost:5000/static/icons/zucchini.png"),
+]
 
+with app.app_context():
+    for item in food_items:
+        food = FoodItem(name=item[0], spoilage_days=item[1], icon_url=item[2])
+        db.session.add(food)
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['JWT_SECRET_KEY'] = 'your_secure_random_secret_key'
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
-CORS(app)
-
-
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-
-
-migrate = Migrate(app, db)
-
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)  # Add this line
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-
-
-
-@app.route('/register', methods=['POST'])
-def register():
-    data = request.json
-    # Check if the email already exists
-    if User.query.filter_by(email=data['email']).first():
-        return {'message': 'Email already in use'}, 400
-
-    # Check if the username already exists
-    if User.query.filter_by(username=data['username']).first():
-        return {'message': 'Username already in use'}, 400
-
-    hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    user = User(username=data['username'], email=data['email'], password=hashed_password)
-    db.session.add(user)
     db.session.commit()
-    return {'message': 'User created successfully'}, 201
 
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    if 'email' not in data or 'password' not in data:
-        return {'message': 'Email and password are required'}, 400
-
-    user = User.query.filter_by(email=data['email']).first()
-    if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity=user.id)
-        return {'access_token': access_token, 'message': 'Login successful'}, 200
-    else:
-        return {'message': 'Login failed'}, 401
-    
-
-@app.route('/protected', methods=['GET'])
-@jwt_required()
-def protected():
-    current_user_id = get_jwt_identity()
-    # You can now use current_user_id to access user details
-    return {'message': 'Access to protected endpoint'}, 200
-
-    
-    
+"""
 
 if __name__ == '__main__':
     app.run(debug=True)

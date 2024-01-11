@@ -7,7 +7,7 @@
   border-bottom: 2px solid #479F76; /* Example styling */
   box-shadow: 0 2px 0px rgba(0, 0, 0, 0.2);
   color: #479F76;
-  font-size: 2.5rem; /* Larger font size */
+  font-size: 2rem; /* Larger font size */
   font-weight: bold;
   
 }
@@ -16,7 +16,7 @@
 .itembar .itembar-quantity,
 .itembar .itembar-added,
 .itembar .itembar-expiry {
-  margin: 0 10px; /* Spacing between items */
+  margin:  10px; /* Spacing between items */
   text-align: center;
   flex: 1; /* Adjust the flex grow factor as needed */
   
@@ -31,11 +31,20 @@
  
 }
 
+.itembar .itembar-icon img.icon-image {
+  max-width: 100%; /* Limit the width to the parent container */
+  max-height: 70px; /* Set the maximum height for the image */
+  object-fit: contain; /* Maintain the aspect ratio without cropping the image */
+}
+
+
 .itembar .itembar-name {
-  margin: 0 10px; /* Spacing between items */
-  margin-left: 5px; /* Example: reduce the left margin */
-  flex-grow: 1;
-  text-align: left; /* Keep text aligned to the left */
+  flex: 1 1 auto; /* Allows it to grow and shrink */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+  max-width: 300px; /* Adjust this value as needed */
+ 
 }
 
 /* You can still target specific variants if they need unique styling */

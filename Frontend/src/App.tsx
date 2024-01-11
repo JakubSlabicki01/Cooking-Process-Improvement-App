@@ -21,6 +21,11 @@ import PrivateRoute from './PrivateRoute';
 // Placeholder components for the routes
 // You would replace these placeholders with your actual components
 
+const App = () => {
+
+  const queryClient = new QueryClient();
+  const username = localStorage.getItem('username') || 'user';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,7 +42,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/user",
+    path: `/${username}`,
     element: (
       <PrivateRoute>
         <UserPanel />
@@ -46,7 +51,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/my-fridge",
+    path: `/${username}/my-fridge`,
     element: (
       <PrivateRoute>
         <MyFridgeView />
@@ -55,7 +60,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/add",
+    path: `/${username}/add`,
     element: (
       <PrivateRoute>
         <AddFromListView />
@@ -64,7 +69,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/scan",
+    path: `/${username}/scan`,
     element: (
       <PrivateRoute>
         <ScanProducts />
@@ -73,7 +78,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/match",
+    path: `/${username}/match`,
     element: (
       <PrivateRoute>
         <TasteMatching />
@@ -81,7 +86,7 @@ const router = createBrowserRouter([
     ), // Assuming BackgroundImage is the layout component 
   },
   {
-    path: "/chosen-product",
+    path: `/${username}/chosen-product`,
     element: (
       <PrivateRoute>
         <ChosenProductView />
@@ -90,7 +95,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/recipe-list",
+    path: `/${username}/recipe-list`,
     element: (
       <PrivateRoute>
         <RecipeListView />
@@ -99,7 +104,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/liked-recipes",
+    path: `/${username}/liked-recipes`,
     element: (
       <PrivateRoute>
         <LikedRecipeListView />
@@ -108,7 +113,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/recipe",
+    path: `/${username}/recipe`,
     element: (
       <PrivateRoute>
         <MyFridgeView />
@@ -117,10 +122,10 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/settings",
+    path: `/${username}/settings`,
     element: (
       <PrivateRoute>
-        <Settings />
+        <Settings />s
       </PrivateRoute>
     ), // Assuming BackgroundImage is the layout component 
   },
@@ -128,9 +133,9 @@ const router = createBrowserRouter([
 
 ]);
 
-const queryClient = new QueryClient();
 
-const App = () => {
+
+
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />

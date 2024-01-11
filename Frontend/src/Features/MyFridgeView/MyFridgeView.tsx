@@ -11,6 +11,8 @@ import { Apple } from 'react-bootstrap-icons';
 
 const MyFridgeView = () => {
 
+  const username = localStorage.getItem('username') || 'user';
+
     const FridgeContent = () => {
         return (
           <div>
@@ -31,11 +33,11 @@ const MyFridgeView = () => {
   };
 
   function goToAdd(): void {
-    navigate('/add');
+    navigate(`/${username}/add`);
   }
 
   function goToScan(): void {
-    navigate('/scan')
+    navigate(`/${username}/scan`)
   }
 
   return (

@@ -1,13 +1,13 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './LoginForm.css';
 import InputComponent from '../../Components/InputComponent.tsx';
 import ButtonComponent from '../../Components/ButtonComponent.tsx';
 import { useNavigate } from 'react-router-dom';
-import { Alert, Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CheckboxComponent from '../../Components/CheckboxComponent.tsx';
 import API from '../../Api';
+import axios, { AxiosError } from 'axios';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -15,28 +15,29 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const validateForm = () => {
-    if (!email || !password) {  // Adjust validation rules as needed
-      setErrorMessage('Email and password are required');
-      return false;
-    }
-    // Add other validation rules as needed
-    return true;
-  };
 
   const handleLogin = async () => {
-    if (!validateForm()) return;
     try {
       const response = await API.post('/login', { email, password });
 
       if (response.status === 200) {
         localStorage.setItem('token', response.data.access_token);
-        navigate('/user');
+        localStorage.setItem('username', response.data.username);
+        navigate(`/${response.data.username}`);
       } else {
-        console.error('Login failed:', response.data.message);
+        setErrorMessage(response.data.message);
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      if (axios.isAxiosError(error)) {
+        const serverError = error as AxiosError<any>;
+        if (serverError && serverError.response) {
+          // Extract and set the error message from server response
+          setErrorMessage(serverError.response.data.message);
+        }
+      } else {
+        // Handle non-Axios error
+        setErrorMessage('An unexpected error occurred: ' + error);
+      }
     }
   };
 
