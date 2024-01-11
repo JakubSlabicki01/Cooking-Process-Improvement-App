@@ -2,6 +2,7 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from backend.models import FoodItem, FridgeItem  # Import the FoodItem model
+from .utils import calculate_days_until_expiry
 from .extensions import db
 
 resources_blueprint = Blueprint('resources', __name__)
@@ -61,16 +62,24 @@ def delete_from_fridge(fridge_item_id):
 def get_my_fridge_items():
     user_id = get_jwt_identity()
 
-    # Fetch all fridge items for the current user
-    fridge_items = FridgeItem.query.filter_by(user_id=user_id).all()
+    # Perform a join between FridgeItem and FoodItem
+    fridge_items = db.session.query(
+        FridgeItem.id,
+        FridgeItem.quantity,
+        FridgeItem.added_on,  # Select the added_on field
+        FoodItem.name,
+        FoodItem.spoilage_days,
+        FoodItem.icon_url
+    ).join(FoodItem, FridgeItem.food_item_id == FoodItem.id).filter(FridgeItem.user_id == user_id).all()
 
     # Transform the data into a JSON-serializable format
     fridge_items_list = [{
         'fridge_item_id': item.id,
-        'food_item_id': item.food_item_id,
         'quantity': item.quantity,
-        # Add additional fields if necessary, such as item details from FoodItem
+        'name': item.name,
+        'expiryDate': calculate_days_until_expiry(item.spoilage_days),
+        'icon_url': item.icon_url,
+        'addedDate': item.added_on.strftime('%Y-%m-%d') if item.added_on else None  # Format the added_on date
     } for item in fridge_items]
 
-    # Return the list of fridge items as JSON
     return jsonify(fridge_items_list)

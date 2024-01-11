@@ -1,4 +1,11 @@
 import re
+from datetime import datetime, timedelta
+
+
+def calculate_days_until_expiry(spoilage_days):
+    expiry_date = datetime.now() + timedelta(days=spoilage_days)
+    days_until_expiry = (expiry_date - datetime.now()).days
+    return days_until_expiry
 
 def validate_email(email):
     if not email or not re.match(r'^\S+@\S+\.\S+$', email):

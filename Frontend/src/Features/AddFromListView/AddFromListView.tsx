@@ -9,6 +9,10 @@ import Itembar from '../../Components/ItembarComponent';
 import API from '../../Api'; // Import your API configuration
 import './AddFromListView.css';
 
+import debounce from 'lodash/debounce';
+
+
+
 // Define a type for your food items
 type FoodItem = {
   id: number;
@@ -74,6 +78,7 @@ const handleAddToFridge = async (itemId: number, addedQuantity: number) => {
 };
 
 
+
   // Function to update the quantity state
   const updateQuantity = (itemId: number, newQuantity: number) => {
     setQuantities({ ...quantities, [itemId]: newQuantity });
@@ -96,7 +101,7 @@ const handleAddToFridge = async (itemId: number, addedQuantity: number) => {
             expiryDate={`${item.spoilage_days} days`}
             icon={item.icon_url} // Use img tag for icon
             onAction={() => handleAddToFridge(item.id, quantities[item.id] || 1)}
-            onQuantityChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+            onQuantityChange={(e) => { updateQuantity(item.id, parseInt(e.target.value))}}
             quantityValue={quantities[item.id]?.toString() || ''}
           />
         ))}

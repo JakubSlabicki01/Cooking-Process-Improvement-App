@@ -1,32 +1,72 @@
-// MyFridgeView.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import InputComponent from '../../Components/InputComponent';
 import ButtonComponent from '../../Components/ButtonComponent';
 import ListPanelComponent from '../../Components/ListPanelComponent';
-import './MyFridgeView.css';
 import Itembar from '../../Components/ItembarComponent';
-import { Apple } from 'react-bootstrap-icons';
+import API from '../../Api';
+import './MyFridgeView.css';
+
+type FridgeItem = {
+  fridge_item_id: number;
+  quantity: number;
+  name: string;
+  addedDate: string;
+  expiryDate: string;
+  icon_url: string;
+};
 
 const MyFridgeView = () => {
+  const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchFridgeItems = async () => {
+      try {
+        const response = await API.get('/api/my-fridge');
+        setFridgeItems(response.data);
+      } catch (error) {
+        console.error('Error fetching fridge items:', error);
+      }
+    };
+
+    fetchFridgeItems();
+  }, []);
+
+  const handleDelete = async (itemId: number) => {
+    console.log("Deleting item with ID:", itemId); // Add this line for debugging
+
+    try {
+        const response = await API.delete(`/api/my-fridge/${itemId}`);
+        console.log("Delete response:", response); // Check the response
+        setFridgeItems(currentItems => currentItems.filter(item => item.fridge_item_id !== itemId));
+    } catch (error) {
+        console.error('Error deleting item:', error);
+    }
+};
+
 
   const username = localStorage.getItem('username') || 'user';
-
-    const FridgeContent = () => {
-        return (
-          <div>
-            <Itembar variant="big" itemName="Item 1" quantity={2} addedDate="10/10/2023" expiryDate="20/10/2023" icon={<Apple color="#479F76"/>} onAction={goBack} />
-            <Itembar variant="big" itemName="Item 1" quantity={2} addedDate="10/10/2023" expiryDate="20/10/2023" icon={<Apple color="#479F76"/>} onAction={goBack} />
-            <Itembar variant="big" itemName="Item 1" quantity={2} addedDate="10/10/2023" expiryDate="20/10/2023" icon={<Apple color="#479F76"/>} onAction={goBack} />
-            <Itembar variant="big" itemName="Item 1" quantity={2} addedDate="10/10/2023" expiryDate="20/10/2023" icon={<Apple color="#479F76"/>} onAction={goBack} />
-            <Itembar variant="big" itemName="Item 1" quantity={2} addedDate="10/10/2023" expiryDate="20/10/2023" icon={<Apple color="#479F76"/>} onAction={goBack} />
-            <Itembar variant="big" itemName="Item 1" quantity={2} addedDate="10/10/2023" expiryDate="20/10/2023" icon={<Apple color="#479F76"/>} onAction={goBack} />
-          </div>
-        );
-      };
-      
-  const navigate = useNavigate();
+  
+  const FridgeContent = () => {
+    return (
+      <>
+        {fridgeItems.map((item) => (
+          <Itembar
+            key={item.fridge_item_id}
+            variant="big"
+            itemName={item.name}
+            quantity={item.quantity}
+            addedDate={item.addedDate}
+            expiryDate={item.expiryDate}
+            icon={item.icon_url}
+            onAction={() => handleDelete(item.fridge_item_id)}
+          />
+        ))}
+      </>
+    );
+  };
   
   const goBack = () => {
     navigate(-1);
@@ -47,7 +87,7 @@ const MyFridgeView = () => {
         <InputComponent placeholder="Search input" type='text' classElem='login' />
         <ButtonComponent text='Sort' onClick={goBack} classElem='big-silent' />
       </div>
-      <ListPanelComponent variant='default' label='Nazwa' children={<FridgeContent/>} />
+      <ListPanelComponent variant='blank' label='My items' children={<FridgeContent/>} />
       <div className="button-container-fridge">
       <ButtonComponent text={"Scan"} onClick={goToScan} classElem="big-silent"/>
       <ButtonComponent text={"Add"} onClick={goToAdd} classElem="big-normal"/>

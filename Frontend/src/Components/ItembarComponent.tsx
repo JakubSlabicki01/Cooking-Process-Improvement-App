@@ -26,13 +26,18 @@ const Itembar: React.FC<ItembarProps> = ({
   onQuantityChange,
   quantityValue,
   icon,
-  ...otherProps
+  
 }) => {
   // You can determine what to render based on the variant
   const isBigVariant = variant.startsWith('big');
   const renderIcon = () => {
     if (typeof icon === 'string') {
-      return <img src={icon} alt={itemName} className="icon-image" />;
+      return (
+        <div>
+        {isBigVariant && <img src={icon} alt={itemName} className="icon-image" loading="lazy" />}
+        {!isBigVariant && <img src={icon} alt={itemName} className="icon-image-small" loading="lazy" />}
+        </div>
+      )
     }
     return icon; // If it's not a string, it's assumed to be a JSX element or ReactNode
   };
@@ -44,7 +49,7 @@ const Itembar: React.FC<ItembarProps> = ({
         <div className="itembar-name">{itemName}</div>
         <span className="itembar-quantity">In my fridge: {quantity}</span>
 
-        <span className="itembar-expiry">Expires in: {expiryDate}</span>
+        <span className="itembar-expiry">Expires in: {expiryDate} days</span>
         <InputComponent type={'text'} classElem='small' placeholder={'Quantity'} value={quantityValue} onChange={onQuantityChange} />
         <button onClick={onAction} className="itembar-add">✓</button>
       </div>
@@ -55,9 +60,9 @@ const Itembar: React.FC<ItembarProps> = ({
     <div className={`itembar ${variant}`}>
       <div className="itembar-icon">{renderIcon()}</div>
       <span className="itembar-name">{itemName}</span>
-      {isBigVariant && quantity && <span className="itembar-quantity">{quantity}</span>}
-      {isBigVariant && addedDate && <span className="itembar-added">{addedDate}</span>}
-      <span className="itembar-expiry">{expiryDate}</span>
+      {isBigVariant && quantity && <span className="itembar-quantity">In my fridge: {quantity}</span>}
+      {isBigVariant && addedDate && <span className="itembar-added">Added at: {addedDate}</span>}
+      <span className="itembar-expiry">Expires in: {expiryDate} days</span>
       {isBigVariant && onAction && (
         <button onClick={onAction} className="itembar-delete">X</button>
       )}

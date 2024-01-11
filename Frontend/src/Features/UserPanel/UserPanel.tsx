@@ -1,9 +1,7 @@
-import React from 'react';
 import Widget from '../../Components/WidgetComponent';
 import Header from '../../Components/HeaderComponent';
 import './UserPanel.css'; // Make sure the CSS file is imported
 import { useNavigate } from 'react-router-dom';
-import settingsIcon from '../../images/icons/settingsIcon.png';
 import { CameraFill } from 'react-bootstrap-icons';
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
@@ -15,7 +13,8 @@ import Itembar from '../../Components/ItembarComponent';
 import { Apple } from 'react-bootstrap-icons'; // Import a specific icon from a library
 import RecipeBar from '../../Components/RecipeBarComponent';
 import backgroundImage from '../../images/background.png';
-
+import { useEffect, useState } from 'react';
+import API from '../../Api';
 
 const Fridge = () => {
   return (
@@ -23,18 +22,11 @@ const Fridge = () => {
   )
 }
 
-const FridgeContent = () => {
-  return (
-    <div>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    <Itembar variant='small' itemName='Jabłko' expiryDate='20/20/2023' icon={<Apple color="#479F76"/>}/>
-    </div>
-  );
+type FridgeItem = {
+  fridge_item_id: number;
+  name: string;
+  expiryDate: string;
+  icon_url: string;
 };
 
 const Image = () => {
@@ -59,6 +51,37 @@ const UserPanel = () => {
 
   const navigate = useNavigate(); // Hook for navigation
   const username = localStorage.getItem('username') || 'user';
+
+  const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
+
+  useEffect(() => {
+    const fetchFridgeItems = async () => {
+      try {
+        const response = await API.get('/api/my-fridge');
+        setFridgeItems(response.data);
+      } catch (error) {
+        console.error('Error fetching fridge items:', error);
+      }
+    };
+
+    fetchFridgeItems();
+  }, []);
+
+  const FridgeContent = () => {
+    return (
+      <>
+        {fridgeItems.map((item) => (
+          <Itembar
+            key={item.fridge_item_id}
+            variant="small"
+            itemName={item.name}
+            expiryDate={item.expiryDate}
+            icon={item.icon_url}
+          />
+        ))}
+      </>
+    );
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage

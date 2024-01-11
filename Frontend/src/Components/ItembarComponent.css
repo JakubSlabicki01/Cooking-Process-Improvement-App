@@ -7,9 +7,18 @@
   border-bottom: 2px solid #479F76; /* Example styling */
   box-shadow: 0 2px 0px rgba(0, 0, 0, 0.2);
   color: #479F76;
-  font-size: 2rem; /* Larger font size */
   font-weight: bold;
   
+}
+
+
+.itembar.big,
+.itembar.big-add {
+  font-size: 2rem; /* Larger font size */
+}
+
+.itembar.small {
+  font-size: 1rem; /* Larger font size */
 }
 
 
@@ -35,6 +44,14 @@
   max-width: 100%; /* Limit the width to the parent container */
   max-height: 70px; /* Set the maximum height for the image */
   object-fit: contain; /* Maintain the aspect ratio without cropping the image */
+  margin-right: 10px;
+}
+
+.itembar .itembar-icon img.icon-image-small {
+  max-width: 100%; /* Limit the width to the parent container */
+  max-height: 70px; /* Set the maximum height for the image */
+  object-fit: contain; /* Maintain the aspect ratio without cropping the image */
+  margin-right: 10px;
 }
 
 
