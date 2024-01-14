@@ -2,6 +2,12 @@ import re
 from datetime import datetime, timedelta
 
 
+def process_response(response_text):
+    # Split the response by line breaks and strip whitespace
+    items = [item.strip() for item in response_text.split('\n') if item.strip()]
+    return items
+
+
 def calculate_days_until_expiry(spoilage_days):
     expiry_date = datetime.now() + timedelta(days=spoilage_days)
     days_until_expiry = (expiry_date - datetime.now()).days

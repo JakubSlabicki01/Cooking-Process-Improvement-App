@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Flask
 from flask_cors import CORS
 from .extensions import db, bcrypt, jwt, migrate
@@ -13,8 +14,11 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
     jwt.init_app(app)
     CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
     app.register_blueprint(auth_blueprint)
 

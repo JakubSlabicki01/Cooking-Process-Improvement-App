@@ -17,6 +17,7 @@ import RecipeListView from './Features/RecipesListView/RecipeListView';
 import LikedRecipeListView from './Features/LikedRecipesView/LikedRecipeListView';
 import Settings from './Features/Settings/SettingsView';
 import PrivateRoute from './PrivateRoute';
+import ChatGPTTest from './ChatGPTTest';
 
 // Placeholder components for the routes
 // You would replace these placeholders with your actual components
@@ -125,7 +126,7 @@ const router = createBrowserRouter([
     path: `/${username}/settings`,
     element: (
       <PrivateRoute>
-        <Settings />s
+        <ChatGPTTest />
       </PrivateRoute>
     ), // Assuming BackgroundImage is the layout component 
   },
