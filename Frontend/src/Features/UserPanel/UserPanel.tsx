@@ -5,86 +5,146 @@ import { useNavigate } from 'react-router-dom';
 import { CameraFill } from 'react-bootstrap-icons';
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
-import {StarFill} from 'react-bootstrap-icons'
-import {GearFill} from 'react-bootstrap-icons'
-import {Book} from 'react-bootstrap-icons'
-import {PuzzleFill} from "react-bootstrap-icons"
+import { StarFill } from 'react-bootstrap-icons'
+import { GearFill } from 'react-bootstrap-icons'
+import { Book } from 'react-bootstrap-icons'
+import { PuzzleFill } from "react-bootstrap-icons"
 import Itembar from '../../Components/ItembarComponent';
-import { Apple } from 'react-bootstrap-icons'; // Import a specific icon from a library
 import RecipeBar from '../../Components/RecipeBarComponent';
 import backgroundImage from '../../images/background.png';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import API from '../../Api';
+import FoodItemContext from '../../Contexts/FoodItemContext';
+import FridgeItemContext from '../../Contexts/FridgeItemContext';
+import RecipeContext from '../../Contexts/RecipeContext';
+import LikedRecipeContext from '../../Contexts/LikedRecipeContext';
 
 const Fridge = () => {
   return (
-    <CIcon icon={icon.cilFridge} size="xxl"/>
+    <CIcon icon={icon.cilFridge} size="xxl" />
   )
 }
-
-type FridgeItem = {
-  fridge_item_id: number;
-  name: string;
-  expiryDate: string;
-  icon_url: string;
-};
 
 const Image = () => {
   return (
-    <img src={backgroundImage} alt='Image'/>
+    <img src={backgroundImage} alt='Image' />
   )
 }
-const RecipeContent = () => {
-  return (
-    <div>
-    <RecipeBar recipeName='Nazwa przepisu' icon={<Image/>}/>
-    <RecipeBar recipeName='Nazwa przepisu' icon={<Image/>}/>
-    <RecipeBar recipeName='Nazwa przepisu' icon={<Image/>}/>
-    <RecipeBar recipeName='Nazwa przepisu' icon={<Image/>}/>
-    <RecipeBar recipeName='Nazwa przepisu' icon={<Image/>}/>
-    </div>
-  );
-};
+
 
 
 const UserPanel = () => {
 
+  const { foodItems, setFoodItems } = useContext(FoodItemContext);
+  const { fridgeItems, setFridgeItems } = useContext(FridgeItemContext);
+  const { recipes, setRecipes } = useContext(RecipeContext);
+  const { likedRecipes, setLikedRecipes } = useContext(LikedRecipeContext);
+
   const navigate = useNavigate(); // Hook for navigation
   const username = localStorage.getItem('username') || 'user';
 
-  const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
 
   useEffect(() => {
     const fetchFridgeItems = async () => {
-      try {
-        const response = await API.get('/api/my-fridge');
-        setFridgeItems(response.data);
-      } catch (error) {
-        console.error('Error fetching fridge items:', error);
+      // Fetch food items if not already loaded
+      if (foodItems.length === 0) {
+        try {
+          const foodItemsResponse = await API.get('/api/food-items');
+          setFoodItems(foodItemsResponse.data);
+          console.log(foodItemsResponse.data);
+        } catch (error) {
+          console.error('Error fetching food items:', error);
+        }
+      }
+
+      // Fetch fridge items if not already loaded
+      if (fridgeItems.length === 0) {
+        try {
+          const fridgeItemsResponse = await API.get('/api/my-fridge');
+          setFridgeItems(fridgeItemsResponse.data);
+        } catch (error) {
+          console.error('Error fetching fridge items:', error);
+        }
       }
     };
 
+    const fetchRecipes = async () => {
+      try {
+        const response = await API.get('/api/recipes'); // Replace with your actual endpoint
+        setRecipes(response.data);
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    };
+
+
+    const fetchLikedRecipes = async () => {
+      try {
+        const response = await API.get('/api/liked-recipes'); // Replace with your actual endpoint
+        console.log("fetched recipes", response.data)
+        setLikedRecipes(response.data);
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    };
+
+    if (recipes.length === 0) {
+      fetchRecipes();
+    }
+
+    if (likedRecipes.length === 0) {
+      fetchLikedRecipes();
+    }
+
     fetchFridgeItems();
-  }, []);
+  }, [setFoodItems, setFridgeItems, setRecipes, setLikedRecipes]);
 
   const FridgeContent = () => {
     return (
       <>
-        {fridgeItems.map((item) => (
-          <Itembar
-            key={item.fridge_item_id}
-            variant="small"
-            itemName={item.name}
-            expiryDate={item.expiryDate}
-            icon={item.icon_url}
-          />
-        ))}
+        {fridgeItems.length > 0 ? (
+          fridgeItems.map((item) => (
+            <Itembar
+              key={item.fridge_item_id}
+              variant="small"
+              itemName={item.name}
+              expiryDate={item.expiryDate}
+              icon={item.icon_url}
+            />
+          ))) : (
+          <p><strong>Your fridge is empty!</strong></p>
+        )}
+      </>
+    );
+  };
+
+  const RecipeContent = () => {
+    // Filter recipes to include only those that are liked
+    const likedRecipeList = recipes.filter(recipe =>
+      likedRecipes.some(lr => lr.recipe_id === recipe.id)
+    );
+
+    return (
+      <>
+        {likedRecipeList.length > 0 ? (
+          likedRecipeList.map((recipe) => (
+            <RecipeBar
+              key={recipe.id}
+              recipeName={recipe.name}
+              icon={recipe.image_url} // Or use a specific image if available
+            />
+          ))
+        ) : (
+          <p><strong>You haven't liked any recipes yet!</strong></p>
+        )}
       </>
     );
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage
+    setFoodItems([])
+    setFridgeItems([]);
     navigate('/login'); // Redirect to login page
   };
 
@@ -115,20 +175,20 @@ const UserPanel = () => {
 
   return (
     <div className="user-panel">
-      <Header title={`Welcome ${username}`} onLogout={handleLogout} buttonText='Log out'/>
+      <Header title={`Welcome ${username}`} onLogout={handleLogout} buttonText='Log out' />
       <div className='widget-container'>
-      
-      <Widget variant="big-dark" title="My fridge" content={<FridgeContent /> } icon={<Fridge/>} onClick={goToMyfridge}  />
 
-      <Widget variant="small-bright" title="Scan" icon={<CameraFill size={230} color="#479F76"/> } onClick={goToScan} />
+        <Widget variant="big-dark" title="My fridge" content={<FridgeContent />} icon={<Fridge />} onClick={goToMyfridge} />
 
-      <Widget variant="small-dark" title="Taste matching" icon={<PuzzleFill size={230} color="white"/>} onClick={goToTasteMatching} />
+        <Widget variant="small-bright" title="Scan" icon={<CameraFill size={230} color="#479F76" />} onClick={goToScan} />
 
-      <Widget variant="small-dark" title="Recipes" icon={<Book size={230} color="white"/>} onClick={goToRecipeList} />
+        <Widget variant="small-dark" title="Taste matching" icon={<PuzzleFill size={230} color="white" />} onClick={goToTasteMatching} />
 
-      <Widget variant="big-bright" title="Liked recipes" content={<RecipeContent />} icon={<StarFill size={30} color="#479F76"/>} onClick={goToLikedRecipeList} />
+        <Widget variant="small-dark" title="Recipes" icon={<Book size={230} color="white" />} onClick={goToRecipeList} />
 
-      <Widget variant="small-dark" title="Settings" icon={<GearFill size={230} color="white" />} onClick={goToSettings}/>
+        <Widget variant="big-bright" title="Liked recipes" content={<RecipeContent />} icon={<StarFill size={30} color="#479F76" />} onClick={goToLikedRecipeList} />
+
+        <Widget variant="small-dark" title="Settings" icon={<GearFill size={230} color="white" />} onClick={goToSettings} />
 
       </div>
 

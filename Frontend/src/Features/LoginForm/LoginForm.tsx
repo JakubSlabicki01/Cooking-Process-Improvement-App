@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './LoginForm.css';
 import InputComponent from '../../Components/InputComponent.tsx';
 import ButtonComponent from '../../Components/ButtonComponent.tsx';
@@ -8,6 +8,8 @@ import { Container, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import API from '../../Api';
 import axios, { AxiosError } from 'axios';
+import FoodItemContext from '../../Contexts/FoodItemContext.tsx';
+import FridgeItemContext from '../../Contexts/FridgeItemContext.tsx';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -16,13 +18,17 @@ const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
 
+
   const handleLogin = async () => {
+
     try {
       const response = await API.post('/login', { email, password });
-
+  
       if (response.status === 200) {
         localStorage.setItem('token', response.data.access_token);
         localStorage.setItem('username', response.data.username);
+        localStorage.setItem('user_id', response.data.user_id);
+  
         navigate(`/${response.data.username}`);
       } else {
         setErrorMessage(response.data.message);
@@ -58,11 +64,11 @@ const LoginForm = () => {
         </Row>
       </Container>
       {errorMessage && (
-          <div className="alert alert-danger" role="alert">
-            {errorMessage}
-          </div>
-        )}
-      
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}
+        </div>
+      )}
+
       <div className='button-container'>
         <ButtonComponent text={"Log in"} onClick={handleLogin} classElem="big-normal" />
         <ButtonComponent text={"Cancel"} onClick={goBack} classElem="big-silent" />

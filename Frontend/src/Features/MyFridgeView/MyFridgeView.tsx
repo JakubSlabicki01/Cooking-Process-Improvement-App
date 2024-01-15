@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import InputComponent from '../../Components/InputComponent';
@@ -7,32 +7,15 @@ import ListPanelComponent from '../../Components/ListPanelComponent';
 import Itembar from '../../Components/ItembarComponent';
 import API from '../../Api';
 import './MyFridgeView.css';
+import FoodItemContext from '../../Contexts/FoodItemContext';
+import FridgeItemContext from '../../Contexts/FridgeItemContext';
 
-type FridgeItem = {
-  fridge_item_id: number;
-  quantity: number;
-  name: string;
-  addedDate: string;
-  expiryDate: string;
-  icon_url: string;
-};
+
 
 const MyFridgeView = () => {
-  const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchFridgeItems = async () => {
-      try {
-        const response = await API.get('/api/my-fridge');
-        setFridgeItems(response.data);
-      } catch (error) {
-        console.error('Error fetching fridge items:', error);
-      }
-    };
-
-    fetchFridgeItems();
-  }, []);
+  //const { foodItems, setFoodItems } = useContext(FoodItemContext);
+  const { fridgeItems, setFridgeItems } = useContext(FridgeItemContext);
 
   const handleDelete = async (itemId: number) => {
     console.log("Deleting item with ID:", itemId); // Add this line for debugging

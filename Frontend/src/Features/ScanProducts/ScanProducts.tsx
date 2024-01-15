@@ -1,5 +1,5 @@
 // MyFridgeView.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import InputComponent from '../../Components/InputComponent';
@@ -7,8 +7,9 @@ import ButtonComponent from '../../Components/ButtonComponent';
 import ListPanelComponent from '../../Components/ListPanelComponent';
 import './ScanProducts.css';
 import Itembar from '../../Components/ItembarComponent';
-import { Apple } from 'react-bootstrap-icons';
+import { QuestionCircle } from 'react-bootstrap-icons';
 import API from '../../Api';
+import { checkImage, ResolvedIcons } from '../../Contexts/CheckImage';
 
 type FoodItem = {
   spoilage_days: any;
@@ -19,14 +20,25 @@ type FoodItem = {
   icon_url: string; // Assuming you have a field for icon URL
 };
 
+
 const ScanProducts = () => {
   const [imageUrl, setImageUrl] = useState('');
   const navigate = useNavigate();
   const [recognizedItems, setRecognizedItems] = useState<FoodItem[]>([]);
+  const [resolvedIcons, setResolvedIcons] = useState<ResolvedIcons>({});
 
   const handleImageUrlChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setImageUrl(event.target.value);
   };
+
+  useEffect(() => {
+    recognizedItems.forEach(item => {
+      const imageUrl = item.icon_url ? item.icon_url : `http://localhost:5000/static/icons/${item.name}.png`;
+      checkImage(imageUrl).then(exists => {
+        setResolvedIcons(prev => ({ ...prev, [item.name]: exists ? imageUrl : <QuestionCircle color="#479F76" /> }));
+      });
+    });
+  }, [recognizedItems]);
 
   const handleImageSubmit = async () => {
     try {
@@ -39,6 +51,7 @@ const ScanProducts = () => {
   };
 
   const FridgeContent = () => {
+
     return (
       <div>
         {recognizedItems.map((item, index) => (
@@ -48,7 +61,7 @@ const ScanProducts = () => {
             itemName={item.name}
             quantity={item.quantity ? item.quantity : 0}
             expiryDate={item.spoilage_days ? item.spoilage_days : `?`}
-            icon={item.icon_url ? item.icon_url : <Apple color="#479F76" />}
+            icon={resolvedIcons[item.name]}
             onAction={goBack}
           />
         ))}

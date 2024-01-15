@@ -1,0 +1,69 @@
+
+
+.recipe-view {
+    /* other styles */
+    display: flex;
+    width: 200vh;
+    flex-direction: column;
+    padding-top: 0px;
+    height: calc(100vh - 150px);
+  }
+
+  .recipe-photo {
+    width: auto; /* Scales the width proportionally to the height */
+    height: 250px; /* Fixed height for the image */ /* Adjust the right margin as needed */
+    border-radius: 10px;
+    object-fit: contain; /* Ensures the image covers the area, may cut off some parts of the image */
+    margin: auto;
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: adds some shadow for depth */
+    
+}
+
+/* RecipeView.css */
+
+.recipe-view .recipe-details {
+    padding: 1em;
+    margin-left: 1rem;
+}
+
+.recipe-view .recipe-details p {
+    font-size: 2em; /* Larger text */
+    color: #479F76;  /* Specific color */
+    margin: 5px 0;   /* Some spacing */
+    
+}
+
+
+.recipe-view .recipe-details ul {
+    /* Styles for the ingredients list */
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+    padding: 1em;
+    margin-left: 1rem;
+    
+}
+
+.recipe-view .recipe-details ul div {
+    /* Styles for each ingredient */
+    font-size: 2em; /* Larger text */
+    color: #479F76;  /* Specific color */
+    margin: 5px 0;   /* Some spacing */
+    position: relative; /* Required for positioning the pseudo-element */
+    padding-left: 20px; /* Provide space for the custom bullet */
+    
+}
+
+.recipe-view .recipe-details ul div::before {
+    /* Custom bullet point */
+    content: '•'; /* Unicode character for a bullet */
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #479F76; /* You can adjust the color if needed */
+}
+
+
+
+

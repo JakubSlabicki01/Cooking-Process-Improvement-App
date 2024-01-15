@@ -2,7 +2,7 @@
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from backend.models import FoodItem, FridgeItem  # Import the FoodItem model
+from backend.models import FoodItem, FridgeItem, LikedRecipe, Recipe  # Import the FoodItem model
 from .utils import calculate_days_until_expiry, process_response
 from .extensions import db
 import requests
@@ -93,13 +93,19 @@ def get_my_fridge_items():
         'fridge_item_id': item.id,
         'quantity': item.quantity,
         'name': item.name,
-        'expiryDate': calculate_days_until_expiry(item.spoilage_days),
+        'expiryDate': calculate_days_until_expiry(item.added_on.strftime('%Y-%m-%d'), item.spoilage_days),
         'icon_url': item.icon_url,
-        'addedDate': item.added_on.strftime('%Y-%m-%d') if item.added_on else None  # Format the added_on date
+        'addedDate': item.added_on.strftime('%Y-%m-%d') if item.added_on else None
     } for item in fridge_items]
 
     return jsonify(fridge_items_list)
 
+@resources_blueprint.route('/recipes', methods=['GET'])
+@jwt_required()
+def get_recipes():
+    recipes = Recipe.query.all()
+    recipe_list = [recipe.serialize() for recipe in recipes]
+    return jsonify(recipe_list)
 
 @resources_blueprint.route('/ask-gpt', methods=['POST'])
 def ask_gpt():
@@ -109,7 +115,7 @@ def ask_gpt():
     if not input_label:
         return jsonify({'error': 'No label provided'}), 400
 
-    prompt = f"List between 10 and 25 foods that pair well with {input_label}, just the names. Separate each iteam with '\n' and don't numerate them and don't use any other characters"
+    prompt = f"List between 10 and 25 foods that pair well with {input_label}, just the names in singular form. Each word of the name should start with capital letter.  Separate each iteam with '\n' and don't numerate them and don't use any other characters"
 
     try:
         response = openai.ChatCompletion.create(
@@ -154,7 +160,7 @@ def gpt_image():
             {
             "role": "user",
             "content": [
-                {"type": "text", "text": "List all the food items you can spot in the image. Write just the names, separate each iteam with '\n' and don't numerate them and don't use any other characters"},
+                {"type": "text", "text": "List all the food items you can spot in the image. Write just the names in singular form. Each word of the name should start with capital letter, separate each iteam with '\n' and don't numerate them and don't use any other characters"},
                 {
                 "type": "image_url",
                 "image_url": {
@@ -201,4 +207,47 @@ def gpt_image():
     except Exception as e:
         print(f"RequestException occurred: {e}")
         return jsonify({'error': str(e)}), 500
+    
+
+
+@resources_blueprint.route('/liked-recipes', methods=['GET'])
+@jwt_required()
+def get_liked_recipes():
+    user_id = get_jwt_identity()
+    liked_recipes = LikedRecipe.query.filter_by(user_id=user_id).all()
+
+    liked_recipe_list = [{'recipe_id': lr.recipe_id} for lr in liked_recipes]
+    return jsonify(liked_recipe_list)
+
+@resources_blueprint.route('/like-recipe/<int:recipe_id>', methods=['POST'])
+@jwt_required()
+def like_recipe(recipe_id):
+    user_id = get_jwt_identity()
+
+    # Check if the recipe is already liked
+    if LikedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first():
+        return jsonify({'message': 'Recipe already liked'}), 400
+
+    # Add the liked recipe
+    liked_recipe = LikedRecipe(user_id=user_id, recipe_id=recipe_id)
+    db.session.add(liked_recipe)
+    db.session.commit()
+
+    return jsonify({'message': 'Recipe liked successfully'}), 201
+
+@resources_blueprint.route('/unlike-recipe/<int:recipe_id>', methods=['DELETE'])
+@jwt_required()
+def unlike_recipe(recipe_id):
+    user_id = get_jwt_identity()
+    liked_recipe = LikedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+
+    if liked_recipe is None:
+        return jsonify({'message': 'Liked recipe not found'}), 404
+
+    db.session.delete(liked_recipe)
+    db.session.commit()
+
+    return jsonify({'message': 'Recipe unliked successfully'}), 200
+
+
 

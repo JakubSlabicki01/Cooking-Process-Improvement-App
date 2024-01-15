@@ -34,6 +34,7 @@
 .itembar .itembar-icon {
   margin: 0 10px; /* Spacing between items */
   font-size: 3rem; /* If you are using a font icon */
+  min-width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;

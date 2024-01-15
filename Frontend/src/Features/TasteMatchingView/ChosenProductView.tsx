@@ -6,6 +6,7 @@ import ListPanelComponent from '../../Components/ListPanelComponent';
 import './TasteMatching.css';
 import ItemWidgetComponent from '../../Components/ItemWidgetComponent';
 import API from '../../Api';
+import { QuestionCircle } from 'react-bootstrap-icons';
 
 
 type SuggestionWidget = {
@@ -27,7 +28,7 @@ const ChosenProductView = () => {
         {suggestions.map((item,index) => (
           <ItemWidgetComponent  // Replace 'id' with the unique identifier of the item
             key={index}
-            icon={item.icon_url ? item.icon_url : null}
+            icon={item.icon_url ? item.icon_url : <QuestionCircle color="#479F76"/>}
             label={item.name} // Replace 'name' with the property that holds the item's name
           />
         ))}

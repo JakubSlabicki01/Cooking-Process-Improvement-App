@@ -8,8 +8,9 @@ def process_response(response_text):
     return items
 
 
-def calculate_days_until_expiry(spoilage_days):
-    expiry_date = datetime.now() + timedelta(days=spoilage_days)
+def calculate_days_until_expiry(added_on, spoilage_days):
+    added_date = datetime.strptime(added_on, '%Y-%m-%d')
+    expiry_date = added_date + timedelta(days=spoilage_days)
     days_until_expiry = (expiry_date - datetime.now()).days
     return days_until_expiry
 

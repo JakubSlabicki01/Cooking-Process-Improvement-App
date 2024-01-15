@@ -1,11 +1,12 @@
 .recipe-bar-big {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 8px; /* Adjust the padding as needed */
+  padding: 15px; /* Adjust the padding as needed */
   border-radius: 10px; /* Adjust the border-radius as needed */
   background-color: #fff; /* Background color for the recipe bar */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: adds a subtle shadow */
-  margin-bottom: 20px; /* Space between recipe bars */
+  margin-bottom: 10px; /* Space between recipe bars */
   /* Add a fixed height or min-height for the bar to contain the image */
   min-height: 100px; /* Adjust the min-height as needed */
   }
@@ -23,10 +24,9 @@
     transform: scale(0.99); /* Slightly scale down the widget on click */
   }
   
-  .recipe-photo img{
+  .recipe-photo {
     width: auto; /* Scales the width proportionally to the height */
-    height: 120px; /* Fixed height for the image */
-    margin: 10px; /* Adjust the right margin as needed */
+    height: 150px; /* Fixed height for the image */ 
     border-radius: 10px;
     object-fit: cover; /* Ensures the image covers the area, may cut off some parts of the image */
 
@@ -44,12 +44,18 @@
     color: #479F76; /* Adjust the text color as needed */
     flex-grow: 1; /* Allows the text to fill the available space */
     font-weight: bold;
+    flex: 1 1 auto; /* Allows it to grow and shrink */
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+    max-width: 300px; /* Adjust this value as needed */
   }
 
   .recipe-like {
     background: transparent;
     border: none;
     cursor: pointer;
+    font-size: 2rem;
   }
   
   .recipe-like > svg {

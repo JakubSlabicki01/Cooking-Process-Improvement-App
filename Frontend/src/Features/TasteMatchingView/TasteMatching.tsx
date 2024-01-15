@@ -1,40 +1,22 @@
 // MyFridgeView.tsx
-import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import InputComponent from '../../Components/InputComponent';
 import ButtonComponent from '../../Components/ButtonComponent';
 import ListPanelComponent from '../../Components/ListPanelComponent';
 import './TasteMatching.css';
-import Itembar from '../../Components/ItembarComponent';
-import { Apple } from 'react-bootstrap-icons';
 import ItemWidgetComponent from '../../Components/ItemWidgetComponent';
-import { JSX } from 'react/jsx-runtime';
-import API from '../../Api';
+import FoodItemContext from '../../Contexts/FoodItemContext';
 
-// Define a type for your food items
-type FoodItem = {
-  id: number;
-  name: string;
-  icon_url: string; // Assuming you have a field for icon URL
-};
 
 const TasteMatching = () => {
-  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+  //const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+  const { foodItems } = useContext(FoodItemContext);
   const navigate = useNavigate();
   const username = localStorage.getItem('username') || 'user';
 
-  useEffect(() => {
-    const fetchFoodItems = async () => {
-      try {
-        const response = await API.get('/api/food-items');
-        setFoodItems(response.data);
-      } catch (error) {
-        console.error('Error fetching food items:', error);
-      }
-    };
-    fetchFoodItems();
-  }, []);
+
   
   const goBack = () => {
     navigate(-1);
