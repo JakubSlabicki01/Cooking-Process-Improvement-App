@@ -22,6 +22,11 @@
   color: #146C43;
 }
 
+.big-button.silent-delete {
+  background-color: #F1AEB5;
+  color: #146C43;
+}
+
 /* Small buttons */
 .small-button {
   flex-grow: 1; /* Buttons will grow to fill the container */

@@ -29,6 +29,7 @@ const RecipeListView = () => {
   const location = useLocation();
   const availableRecipes = location.state?.availableRecipes;
   const baseRecipes = availableRecipes || recipes;
+  const username = localStorage.getItem('username') || 'user';
 
 
   const handleSortButtonClick = () => {
@@ -65,7 +66,7 @@ const RecipeListView = () => {
   };
 
   const handleRecipeClick = (recipeName: string) => {
-    navigate(`/admin/${recipeName}`);
+    navigate(`/${username}/${recipeName}`);
   };
 
   const goBack = () => {

@@ -1,3 +1,4 @@
+import base64
 import re
 from datetime import datetime, timedelta
 
@@ -36,3 +37,7 @@ def is_field_empty(field, field_name):
 
 def validate_field(field, validation_function):
     return validation_function(field)
+
+def encode_image(image_path):
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode('utf-8')

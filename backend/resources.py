@@ -1,9 +1,13 @@
 # resources.py
-from flask import Blueprint, jsonify, request
+import os
+from flask import Blueprint, jsonify, request, url_for
 from flask_cors import cross_origin
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask_uploads import  IMAGES, UploadNotAllowed
 from backend.models import FoodItem, FridgeItem, LikedRecipe, Recipe  # Import the FoodItem model
-from .utils import calculate_days_until_expiry, process_response
+from .utils import calculate_days_until_expiry, encode_image, process_response
+from .config import images
+
 from .extensions import db
 import requests
 import openai
@@ -32,6 +36,7 @@ def get_food_items():
     return jsonify(food_items_list)
 
 @resources_blueprint.route('/get-icon-url', methods=['POST'])
+@jwt_required()
 def get_icon_url():
     item_name = request.json.get('name')
     item = FoodItem.query.filter_by(name=item_name).first()
@@ -124,6 +129,7 @@ def get_recipes():
     return jsonify(recipe_list)
 
 @resources_blueprint.route('/ask-gpt', methods=['POST'])
+@jwt_required()
 def ask_gpt():
     data = request.json
     input_label = data.get('label')  # Assuming you receive a 'label' field
@@ -159,6 +165,7 @@ def ask_gpt():
     
 
 @resources_blueprint.route('/gpt-image', methods=['POST'])
+@jwt_required()
 @cross_origin()
 def gpt_image():
 
@@ -167,6 +174,13 @@ def gpt_image():
 
     if not img_url:
         return jsonify({'error': 'No img url provided'}), 400
+    
+    base64_image = encode_image(img_url)
+
+    headers = {
+  "Content-Type": "application/json",
+  "Authorization": f"Bearer {OPENAI_API_KEY}"
+}
 
 
     try:
@@ -180,7 +194,7 @@ def gpt_image():
                 {
                 "type": "image_url",
                 "image_url": {
-                    "url": f"{img_url}",
+                    "url": f"data:image/jpeg;base64,{base64_image}",
                     "detail": "low"
                 },
                 },
@@ -266,5 +280,27 @@ def unlike_recipe(recipe_id):
 
     return jsonify({'message': 'Recipe unliked successfully'}), 200
 
+@resources_blueprint.route('/upload-image', methods=['POST'])
+@jwt_required()
+def upload_image():
+    if 'image' in request.files:
+        image = request.files['image']
+        try:
+            filename = images.save(image)
+            image_url = url_for('static', filename=f'uploads/{filename}', _external=True)
+            return jsonify({'fileName': filename}), 200
+        except UploadNotAllowed:
+            return jsonify({'message': 'The upload was not allowed'}), 400
+    return jsonify({'message': 'No image provided'}), 400
+
+@resources_blueprint.route('/delete-image/<filename>', methods=['DELETE'])
+@jwt_required()
+def delete_image(filename):
+    file_path = os.path.join(images.config.destination, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        return jsonify({'message': 'File deleted successfully'}), 200
+    else:
+        return jsonify({'message': 'File not found'}), 404
 
 

@@ -9,6 +9,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import API from '../../Api';
 import axios, { AxiosError } from 'axios';
 
+const delay = (ms: number | undefined) => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -21,13 +25,15 @@ const LoginForm = () => {
 
     try {
       const response = await API.post('/login', { email, password });
+
+      console.log(response)
   
       if (response.status === 200) {
         localStorage.setItem('token', response.data.access_token);
         localStorage.setItem('username', response.data.username);
         localStorage.setItem('user_id', response.data.user_id);
-  
-        navigate(`/${response.data.username}`);
+
+        navigate(`/${localStorage.getItem('username')}`);
       } else {
         setErrorMessage(response.data.message);
       }

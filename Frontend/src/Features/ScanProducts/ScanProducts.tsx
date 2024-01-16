@@ -39,6 +39,12 @@ const ScanProducts = () => {
   const { recipes } = useContext(RecipeContext);
   const username = localStorage.getItem('username') || 'user';
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    setSelectedFile(file);
+  }
 
   const handleQuantityChange = (itemId: number, newQuantity: number) => {
     setQuantities(prevQuantities => ({
@@ -49,6 +55,14 @@ const ScanProducts = () => {
 
   const handleImageUrlChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setImageUrl(event.target.value);
+  };
+
+  const handleCleanup = async (filename: any) => {
+    try {
+      await API.delete(`/api/delete-image/${filename}`);
+    } catch (error) {
+      console.error('Error deleting file:', error);
+    }
   };
 
   const getAvailableRecipes = () => {
@@ -105,14 +119,25 @@ const ScanProducts = () => {
   }, [recognizedItems]);
 
   const handleImageSubmit = async () => {
-    try {
-      const response = await API.post('/api/gpt-image', { img_url: imageUrl });
-      setRecognizedItems(response.data); // Assuming response.data is the array of items with details
-    } catch (error) {
-      console.error('Error submitting image:', error);
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('image', selectedFile);
+  
+      try {
+        // First, upload the image to your server
+        const uploadResponse = await API.post('/api/upload-image', formData);
+        const uploadedImageUrl = `./static/uploads/${uploadResponse.data.fileName}`;
+  
+        // Then, use the uploaded image URL to analyze with GPT model
+        const gptResponse = await API.post('/api/gpt-image', { img_url: uploadedImageUrl });
+        setRecognizedItems(gptResponse.data); // Assuming response.data is the array of recognized items
+        handleCleanup(uploadResponse.data.fileName);
+      } catch (error) {
+        console.error('Error in image processing:', error);
+      }
     }
   };
-
+  
   const FridgeContent = () => {
     const quantityMap: QuantityMap = fridgeItems.reduce((acc, item) => {
       acc[item.name] = (acc[item.name] || 0) + item.quantity;
@@ -160,9 +185,9 @@ const ScanProducts = () => {
 
   return (
     <div className="scan-products-view">
-      <Header title="My Fridge" onLogout={() => navigate(-1)} buttonText='Go back' />
+      <Header title="Scan products" onLogout={() => navigate(-1)} buttonText='Go back' />
       <div className="controls-wrapper">
-        <InputComponent placeholder="Enter image URL" type='text' classElem='login' value={imageUrl} onChange={handleImageUrlChange} />
+        <InputComponent  type='file'  value={imageUrl} onChange={handleFileChange} />
         <ButtonComponent text='Analyze Image' onClick={handleImageSubmit} classElem='big-silent' />
       </div>
       <ListPanelComponent variant='blank' label='Recognized items' children={<FridgeContent />} />

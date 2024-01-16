@@ -15,7 +15,12 @@ flask-login = "*"
 flask-jwt-extended = "*"
 flask-restx = "*"
 requests = "*"
-openai = "*"
+openai = "==0.28"
+flask-uploads = "*"
+werkzeug = "*"
+jinja2 = "*"
+markupsafe = "*"
+flask-reuploaded = "*"
 
 [dev-packages]
 

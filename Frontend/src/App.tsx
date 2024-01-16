@@ -22,6 +22,7 @@ import FridgeItemContext, { FridgeItem } from './Contexts/FridgeItemContext';
 import RecipeContext, { Recipe } from './Contexts/RecipeContext';
 import RecipeView from './Features/RecipeView/RecipeView';
 import LikedRecipeContext, { LikedRecipe } from './Contexts/LikedRecipeContext';
+import Settings from './Features/Settings/SettingsView';
 
 // Placeholder components for the routes
 // You would replace these placeholders with your actual components
@@ -29,7 +30,6 @@ import LikedRecipeContext, { LikedRecipe } from './Contexts/LikedRecipeContext';
 const App = () => {
 
   const queryClient = new QueryClient();
-  const username = localStorage.getItem('username') || 'user';
   const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
   const [recognizedItems, setRecognizedItems] = useState<FoodItem[]>([]);
   const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
@@ -52,7 +52,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}`,
+      path: `/:username`,
       element: (
         <PrivateRoute>
           <UserPanel />
@@ -61,7 +61,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/my-fridge`,
+      path: `/:username/my-fridge`,
       element: (
         <PrivateRoute>
           <MyFridgeView />
@@ -70,7 +70,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/add`,
+      path: `/:username/add`,
       element: (
         <PrivateRoute>
           <AddFromListView />
@@ -79,7 +79,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/scan`,
+      path: `/:username/scan`,
       element: (
         <PrivateRoute>
           <ScanProducts />
@@ -88,7 +88,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/match`,
+      path: `/:username/match`,
       element: (
         <PrivateRoute>
           <TasteMatching />
@@ -96,7 +96,7 @@ const App = () => {
       ), // Assuming BackgroundImage is the layout component 
     },
     {
-      path: `/${username}/chosen-product`,
+      path: `/:username/chosen-product`,
       element: (
         <PrivateRoute>
           <ChosenProductView />
@@ -105,7 +105,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/recipe-list`,
+      path: `/:username/recipe-list`,
       element: (
         <PrivateRoute>
           <RecipeListView />
@@ -114,7 +114,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/liked-recipes`,
+      path: `/:username/liked-recipes`,
       element: (
         <PrivateRoute>
           <LikedRecipeListView />
@@ -123,7 +123,7 @@ const App = () => {
     },
 
     {
-      path: `/${username}/:recipeName`,
+      path: `/:username/:recipeName`,
       element: (
         <PrivateRoute>
           <RecipeView />
@@ -132,10 +132,10 @@ const App = () => {
     },
 
     {
-      path: `/${username}/settings`,
+      path: `/:username/settings`,
       element: (
         <PrivateRoute>
-          <ChatGPTTest />
+          <Settings />
         </PrivateRoute>
       ), // Assuming BackgroundImage is the layout component 
     },

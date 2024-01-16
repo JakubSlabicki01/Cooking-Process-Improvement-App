@@ -25,17 +25,11 @@ const Fridge = () => {
   )
 }
 
-const Image = () => {
-  return (
-    <img src={backgroundImage} alt='Image' />
-  )
-}
-
 
 
 const UserPanel = () => {
 
-  const { foodItems, setFoodItems } = useContext(FoodItemContext);
+  const { foodItems, setFoodItems, setRecognizedItems } = useContext(FoodItemContext);
   const { fridgeItems, setFridgeItems } = useContext(FridgeItemContext);
   const { recipes, setRecipes } = useContext(RecipeContext);
   const { likedRecipes, setLikedRecipes } = useContext(LikedRecipeContext);
@@ -51,7 +45,6 @@ const UserPanel = () => {
         try {
           const foodItemsResponse = await API.get('/api/food-items');
           setFoodItems(foodItemsResponse.data);
-          console.log(foodItemsResponse.data);
         } catch (error) {
           console.error('Error fetching food items:', error);
         }
@@ -81,7 +74,6 @@ const UserPanel = () => {
     const fetchLikedRecipes = async () => {
       try {
         const response = await API.get('/api/liked-recipes'); // Replace with your actual endpoint
-        console.log("fetched recipes", response.data)
         setLikedRecipes(response.data);
       } catch (error) {
         console.error('Error fetching recipes:', error);
@@ -143,8 +135,11 @@ const UserPanel = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage
+    localStorage.removeItem('username'); // Remove the token from local storage
+    localStorage.removeItem('user_id'); // Remove the token from local storage
     setFridgeItems([]);
     setLikedRecipes([]);
+    setRecognizedItems([]);
     navigate('/login'); // Redirect to login page
   };
 
