@@ -1,7 +1,5 @@
 import Header from '../../Components/HeaderComponent';
 import { useNavigate } from 'react-router-dom';
-import settingsIcon from '../../images/icons/settingsIcon.png';
-import { Display, GearFill } from 'react-bootstrap-icons'
 import { Container, Row } from 'react-bootstrap';
 import ButtonComponent from '../../Components/ButtonComponent';
 import InputComponent from '../../Components/InputComponent';
@@ -10,7 +8,6 @@ import API from '../../Api';
 import FoodItemContext from '../../Contexts/FoodItemContext';
 import FridgeItemContext from '../../Contexts/FridgeItemContext';
 import LikedRecipeContext from '../../Contexts/LikedRecipeContext';
-import RecipeContext from '../../Contexts/RecipeContext';
 import axios, { AxiosError } from 'axios';
 
 

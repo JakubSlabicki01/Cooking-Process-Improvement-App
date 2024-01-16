@@ -9,9 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import API from '../../Api';
 import axios, { AxiosError } from 'axios';
 
-const delay = (ms: number | undefined) => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
 
 const LoginForm = () => {
   const navigate = useNavigate();
