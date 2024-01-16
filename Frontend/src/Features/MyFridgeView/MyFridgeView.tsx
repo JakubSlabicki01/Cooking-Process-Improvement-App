@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import InputComponent from '../../Components/InputComponent';
@@ -7,7 +7,6 @@ import ListPanelComponent from '../../Components/ListPanelComponent';
 import Itembar from '../../Components/ItembarComponent';
 import API from '../../Api';
 import './MyFridgeView.css';
-import FoodItemContext from '../../Contexts/FoodItemContext';
 import FridgeItemContext from '../../Contexts/FridgeItemContext';
 import RadioInputComponent from '../../Components/RadioInputComponent';
 

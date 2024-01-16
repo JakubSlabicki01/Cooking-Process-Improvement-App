@@ -17,7 +17,7 @@ const TasteMatching = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username') || 'user';
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortCriteria, setSortCriteria] = useState("");
+  const [, setSortCriteria] = useState("");
   const [showSortOptions, setShowSortOptions] = useState(false); // State to track visibility of the sort options
 
   const handleSortButtonClick = () => {

@@ -44,10 +44,6 @@ body {
   display: inline-block; /* or inline-block based on your layout needs */
 }
 
-.login-form input[type="checkbox"] {
-  /* Add custom styles if needed */
-}
-
 /* Styling the checkmark color */
 .login-form input[type="checkbox"]:checked::before {
   background-color: #28a745; /* Bootstrap success color */

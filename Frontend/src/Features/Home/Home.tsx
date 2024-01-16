@@ -1,5 +1,4 @@
 
-import React from 'react';
 import './Home.css';
 import ButtonComponent from '../../Components/ButtonComponent';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate

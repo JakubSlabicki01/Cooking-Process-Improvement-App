@@ -11,7 +11,6 @@ import { Book } from 'react-bootstrap-icons'
 import { PuzzleFill } from "react-bootstrap-icons"
 import Itembar from '../../Components/ItembarComponent';
 import RecipeBar from '../../Components/RecipeBarComponent';
-import backgroundImage from '../../images/background.png';
 import { useContext, useEffect } from 'react';
 import API from '../../Api';
 import FoodItemContext from '../../Contexts/FoodItemContext';

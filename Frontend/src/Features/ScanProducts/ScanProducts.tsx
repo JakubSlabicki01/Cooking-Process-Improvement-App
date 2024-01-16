@@ -12,18 +12,8 @@ import API from '../../Api';
 import { checkImage, ResolvedIcons } from '../../Contexts/CheckImage';
 import FridgeItemContext from '../../Contexts/FridgeItemContext';
 import RecipeContext from '../../Contexts/RecipeContext';
-import { all } from 'axios';
 import FoodItemContext from '../../Contexts/FoodItemContext';
-import { isUndefined } from 'lodash';
 
-type FoodItem = {
-  spoilage_days: any;
-  id: number;
-  name: string;
-  quantity: number;
-  expiryDate: number;
-  icon_url: string; // Assuming you have a field for icon URL
-};
 
 interface QuantityMap {
   [key: string]: number;
@@ -31,10 +21,10 @@ interface QuantityMap {
 
 
 const ScanProducts = () => {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl] = useState('');
   const navigate = useNavigate();
   const {recognizedItems, setRecognizedItems} = useContext(FoodItemContext)
-  const [resolvedIcons, setResolvedIcons] = useState<ResolvedIcons>({});
+  const [, setResolvedIcons] = useState<ResolvedIcons>({});
   const { fridgeItems, setFridgeItems } = useContext(FridgeItemContext);
   const { recipes } = useContext(RecipeContext);
   const username = localStorage.getItem('username') || 'user';
@@ -46,16 +36,7 @@ const ScanProducts = () => {
     setSelectedFile(file);
   }
 
-  const handleQuantityChange = (itemId: number, newQuantity: number) => {
-    setQuantities(prevQuantities => ({
-      ...prevQuantities,
-      [itemId]: newQuantity,
-    }));
-  };
 
-  const handleImageUrlChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setImageUrl(event.target.value);
-  };
 
   const handleCleanup = async (filename: any) => {
     try {
@@ -175,9 +156,6 @@ const ScanProducts = () => {
     );
   };
 
-  const goBack = () => {
-    navigate(-1);
-  };
 
   function goToMyFridge(): void {
     navigate(`/${username}/my-fridge`);

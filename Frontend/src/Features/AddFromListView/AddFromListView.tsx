@@ -1,5 +1,5 @@
 // AddFromListView.tsx
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import InputComponent from '../../Components/InputComponent';
@@ -9,7 +9,7 @@ import Itembar from '../../Components/ItembarComponent';
 import API from '../../Api'; // Import your API configuration
 import './AddFromListView.css';
 import FoodItemContext from '../../Contexts/FoodItemContext';
-import FridgeItemContext, { FridgeItem } from '../../Contexts/FridgeItemContext';
+import FridgeItemContext from '../../Contexts/FridgeItemContext';
 import RadioInputComponent from '../../Components/RadioInputComponent';
 
 
@@ -18,9 +18,8 @@ interface QuantityMap {
 }
 
 const AddFromListView = () => {
-  const { foodItems, setFoodItems } = useContext(FoodItemContext);
+  const { foodItems } = useContext(FoodItemContext);
   const { fridgeItems, setFridgeItems } = useContext(FridgeItemContext);
-  const [fridgeQuantities, setFridgeQuantities] = useState<{ [key: number]: number }>({});
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({}); // Track quantities by item ID
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");

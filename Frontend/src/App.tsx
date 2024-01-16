@@ -16,7 +16,6 @@ import ChosenProductView from './Features/TasteMatchingView/ChosenProductView';
 import RecipeListView from './Features/RecipesListView/RecipeListView';
 import LikedRecipeListView from './Features/LikedRecipesView/LikedRecipeListView';
 import PrivateRoute from './PrivateRoute';
-import ChatGPTTest from './ChatGPTTest';
 import FoodItemContext, { FoodItem } from './Contexts/FoodItemContext';
 import FridgeItemContext, { FridgeItem } from './Contexts/FridgeItemContext';
 import RecipeContext, { Recipe } from './Contexts/RecipeContext';
