@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './Features/Home/Home';
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -15,7 +15,6 @@ import TasteMatching from './Features/TasteMatchingView/TasteMatching';
 import ChosenProductView from './Features/TasteMatchingView/ChosenProductView';
 import RecipeListView from './Features/RecipesListView/RecipeListView';
 import LikedRecipeListView from './Features/LikedRecipesView/LikedRecipeListView';
-import Settings from './Features/Settings/SettingsView';
 import PrivateRoute from './PrivateRoute';
 import ChatGPTTest from './ChatGPTTest';
 import FoodItemContext, { FoodItem } from './Contexts/FoodItemContext';
@@ -32,6 +31,7 @@ const App = () => {
   const queryClient = new QueryClient();
   const username = localStorage.getItem('username') || 'user';
   const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+  const [recognizedItems, setRecognizedItems] = useState<FoodItem[]>([]);
   const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [likedRecipes, setLikedRecipes] = useState<LikedRecipe[]>([]);
@@ -149,7 +149,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <LikedRecipeContext.Provider value={{ likedRecipes, setLikedRecipes }}>
-      <FoodItemContext.Provider value={{ foodItems, setFoodItems }}>
+      <FoodItemContext.Provider value={{ foodItems, recognizedItems, setFoodItems, setRecognizedItems }}>
       <FridgeItemContext.Provider value={{ fridgeItems, setFridgeItems }}>
       <RecipeContext.Provider value={{ recipes, setRecipes }}>
         <RouterProvider router={router} />

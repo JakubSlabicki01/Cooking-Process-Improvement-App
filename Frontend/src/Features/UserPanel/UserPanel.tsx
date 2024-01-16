@@ -143,8 +143,8 @@ const UserPanel = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage
-    setFoodItems([])
     setFridgeItems([]);
+    setLikedRecipes([]);
     navigate('/login'); // Redirect to login page
   };
 

@@ -39,6 +39,22 @@ def get_icon_url():
         return jsonify({'icon_url': item.icon_url})
     return jsonify({'icon_url': None})
 
+@resources_blueprint.route('/my-fridge/<int:fridge_item_id>', methods=['PUT'])
+@jwt_required()
+def update_fridge_item(fridge_item_id):
+    user_id = get_jwt_identity()
+    data = request.json
+
+    fridge_item = FridgeItem.query.filter_by(id=fridge_item_id, user_id=user_id).first()
+    if fridge_item is None:
+        return jsonify({'message': 'Fridge item not found'}), 404
+
+    quantity = data.get('quantity')
+    if quantity is not None:
+        fridge_item.quantity = quantity
+
+    db.session.commit()
+    return jsonify({'message': 'Fridge item updated successfully'}), 200
 
 @resources_blueprint.route('/my-fridge', methods=['POST'])
 @jwt_required()
@@ -175,7 +191,6 @@ def gpt_image():
         )
         image_text = response.choices[0].message['content']
         recognized_items = process_response(image_text)
-        print(recognized_items)
 
         try:
             items_details = []
@@ -184,6 +199,7 @@ def gpt_image():
                 if item:
                     # Item exists in the database
                     items_details.append({
+                        'id': item.id,
                         'name': item.name,
                         'icon_url': item.icon_url,
                         'spoilage_days': item.spoilage_days,
@@ -195,9 +211,10 @@ def gpt_image():
                         'name': item_name,
                         'icon_url': None,
                         'spoilage_days': None,
-                        'quantity': None
+                        'quantity': None,
+                        'id': None
                     })
-            print(items_details)
+            
             return jsonify(items_details)
         except Exception as e:
             print(f"RequestException occurred: {e}")

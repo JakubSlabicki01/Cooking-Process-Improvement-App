@@ -1,12 +1,9 @@
 // MyFridgeView.tsx
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useContext, useEffect, useState } from 'react';
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../Components/HeaderComponent';
 import ListPanelComponent from '../../Components/ListPanelComponent';
 import './RecipeView.css';
-import ItemWidgetComponent from '../../Components/ItemWidgetComponent';
-import API from '../../Api';
-import { QuestionCircle } from 'react-bootstrap-icons';
 import RecipeContext, { Recipe } from '../../Contexts/RecipeContext';
 import FoodItemContext from '../../Contexts/FoodItemContext';
 
@@ -16,7 +13,7 @@ import FoodItemContext from '../../Contexts/FoodItemContext';
 const RecipeView = () => {
     const { recipeName } = useParams();
     const { recipes } = useContext(RecipeContext);
-    const { foodItems } = useContext(FoodItemContext);
+    useContext(FoodItemContext);
     const navigate = useNavigate();
 
 

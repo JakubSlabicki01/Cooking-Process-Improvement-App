@@ -6,13 +6,13 @@ import ButtonComponent from '../../Components/ButtonComponent';
 import ListPanelComponent from '../../Components/ListPanelComponent';
 import './LikedRecipeListView.css';
 import RecipeBarBigComponent from '../../Components/RecipeBarBigComponent';
-import backgroundImage from '../../images/background.png';
 import { useContext, useState, useEffect } from 'react';
 import { QuestionCircle } from 'react-bootstrap-icons';
 import API from '../../Api';
 import { ResolvedIcons, checkImage } from '../../Contexts/CheckImage';
 import LikedRecipeContext from '../../Contexts/LikedRecipeContext';
-import RecipeContext from '../../Contexts/RecipeContext';
+import RecipeContext, { Difficulty, difficultyOrder } from '../../Contexts/RecipeContext';
+import RadioInputComponent from '../../Components/RadioInputComponent';
 
 const LikedRecipeListView = () => {
 
@@ -21,6 +21,21 @@ const LikedRecipeListView = () => {
   const { likedRecipes, setLikedRecipes } = useContext(LikedRecipeContext);
   const user_id = localStorage.getItem('user_id') || '0';
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortCriteria, setSortCriteria] = useState("");
+  const [showSortOptions, setShowSortOptions] = useState(false); // State to track visibility of the sort options
+
+  const handleSortButtonClick = () => {
+    setShowSortOptions(!showSortOptions); // Toggle visibility of sort options
+  };
+
+  const handleSortChange = (selectedValue: string) => {
+    setSortCriteria(selectedValue); // Update the sort criteria state
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value); // Update the searchTerm state on input change
+  };
 
   useEffect(() => {
     recipes.forEach(recipe => {
@@ -59,9 +74,37 @@ const LikedRecipeListView = () => {
     // Filter recipes to include only liked recipes
     const likedRecipeList = recipes.filter(recipe => isRecipeLiked(recipe.id));
 
+
+    const filteredLikedRecipes = likedRecipeList.filter(item => 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const getSortedRecipes = () => {
+      return filteredLikedRecipes.sort((a, b) => {
+        switch (sortCriteria) {
+          case "Name":
+            return a.name.localeCompare(b.name);
+          case "Difficulty":
+            if (a.difficulty in difficultyOrder && b.difficulty
+              in difficultyOrder) {
+              return difficultyOrder[a.difficulty as Difficulty] - difficultyOrder[b.difficulty as Difficulty];
+            }
+            return 0;
+          case "Servings":
+            return a.servings - b.servings;
+          case "Time":
+            return a.preparation_time - b.preparation_time;
+          default:
+            return 0;
+        }
+      });
+    };
+  
+    const sortedLikedRecipes = getSortedRecipes();
     return (
+      
       <div>
-        {likedRecipeList.map((recipe, index) => (
+        {sortedLikedRecipes.map((recipe, index) => (
           <RecipeBarBigComponent
             key={index}
             recipeId={recipe.id}
@@ -86,8 +129,9 @@ const LikedRecipeListView = () => {
     <div className="liked-recipe-list-view">
       <Header title="Liked Recipes" onLogout={goBack} buttonText='Go back' />
       <div className="controls-wrapper">
-        <InputComponent placeholder="Search input" type='text' classElem='login' />
-        <ButtonComponent text='Sort' onClick={goBack} classElem='big-silent' />
+        <InputComponent placeholder="Search input" type='text' classElem='login' onChange={handleSearchChange} />
+        <ButtonComponent text='Sort' onClick={handleSortButtonClick} classElem='big-silent' />
+        {showSortOptions && <RadioInputComponent names={["Name", "Difficulty", "Servings", "Time"]} onChange={handleSortChange} />}
       </div>
       <ListPanelComponent variant='blank' label='Nazwa' children={<LikedRecipeContent />} />
 

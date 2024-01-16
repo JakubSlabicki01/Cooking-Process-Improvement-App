@@ -1,5 +1,5 @@
 
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import './LoginForm.css';
 import InputComponent from '../../Components/InputComponent.tsx';
 import ButtonComponent from '../../Components/ButtonComponent.tsx';
@@ -8,8 +8,6 @@ import { Container, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import API from '../../Api';
 import axios, { AxiosError } from 'axios';
-import FoodItemContext from '../../Contexts/FoodItemContext.tsx';
-import FridgeItemContext from '../../Contexts/FridgeItemContext.tsx';
 
 const LoginForm = () => {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode } from 'react';
+import { createContext } from 'react';
 
 export type Recipe = {
     id: number;
@@ -19,7 +19,13 @@ export type Recipe = {
     quantity: string;
   }
   
+  export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
+  export const difficultyOrder: Record<Difficulty, number> = {
+    Easy: 1,
+    Medium: 2,
+    Hard: 3,
+  };
 
 type RecipeContextType = {
     recipes: Recipe[];
