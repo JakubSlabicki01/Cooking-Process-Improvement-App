@@ -137,11 +137,12 @@ def ask_gpt():
     if not input_label:
         return jsonify({'error': 'No label provided'}), 400
 
-    prompt = f"List between 10 and 25 foods that pair well with {input_label}, just the names in singular form. Each word of the name should start with capital letter.  Separate each iteam with '\n' and don't numerate them and don't use any other characters"
+    prompt = f"List between 10 and 25 foods that pair well with {input_label}, just the names in singular form. Each word of the name should start with capital letter.  Separate each item with '\n' and don't numerate them and don't use any other characters"
 
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
+            temperature= 0,
             messages=[{"role": "system", "content": "You are a helpful assistant."},
                       {"role": "user", "content": prompt}]
         )
@@ -170,27 +171,22 @@ def ask_gpt():
 def gpt_image():
 
     data = request.json
-    img_url = data.get('img_url')  # Assuming you receive a 'label' field
+    img_url = data.get('img_url')
 
     if not img_url:
         return jsonify({'error': 'No img url provided'}), 400
     
     base64_image = encode_image(img_url)
 
-    headers = {
-  "Content-Type": "application/json",
-  "Authorization": f"Bearer {OPENAI_API_KEY}"
-}
-
-
     try:
         response = openai.ChatCompletion.create(
         model="gpt-4-vision-preview",
+        temperature= 0,
         messages=[
             {
             "role": "user",
             "content": [
-                {"type": "text", "text": "List all the food items you can spot in the image. Write just the names in singular form. Each word of the name should start with capital letter, separate each iteam with '\n' and don't numerate them and don't use any other characters"},
+                {"type": "text", "text": "List all the food items you can spot in the image. Write just the names in singular form. Each word of the name should start with capital letter, separate each item with '\n' and don't numerate them and don't use any other characters"},
                 {
                 "type": "image_url",
                 "image_url": {
