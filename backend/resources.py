@@ -191,7 +191,7 @@ def gpt_image():
                 "type": "image_url",
                 "image_url": {
                     "url": f"data:image/jpeg;base64,{base64_image}",
-                    "detail": "low"
+                    "detail": "high"
                 },
                 },
             ],
@@ -207,7 +207,6 @@ def gpt_image():
             for item_name in recognized_items:
                 item = FoodItem.query.filter_by(name=item_name).first()
                 if item:
-                    # Item exists in the database
                     items_details.append({
                         'id': item.id,
                         'name': item.name,
@@ -216,7 +215,6 @@ def gpt_image():
                         'quantity': sum(f.quantity for f in FridgeItem.query.filter_by(food_item_id=item.id))
                     })
                 else:
-                    # Item not found in the database, set default values
                     items_details.append({
                         'name': item_name,
                         'icon_url': None,
@@ -230,7 +228,6 @@ def gpt_image():
             print(f"RequestException occurred: {e}")
             return jsonify({'error': str(e)}), 500
 
-        # Process the response to extract only item names if necessary
     except Exception as e:
         print(f"RequestException occurred: {e}")
         return jsonify({'error': str(e)}), 500
