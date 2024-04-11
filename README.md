@@ -1,0 +1,1 @@
+Projekt aplikacji internetowej dotyczącej wspomgania procesu gotowania. Aplikacja łączy funkcjonalności menadżera lodówki, skanera produktów oraz rekomendacji połączeń smakowych z wykorzystaniem sztucznej inteligiencji.
